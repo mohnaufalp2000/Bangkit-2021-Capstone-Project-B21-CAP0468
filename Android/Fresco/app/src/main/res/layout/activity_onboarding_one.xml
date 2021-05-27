@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/green"
+    tools:context=".ui.onboarding.OnboardingOne">
+
+    <ImageView
+        android:id="@+id/img_onboard_one"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="95dp"
+        android:background="@drawable/one"
+        android:contentDescription="@string/first_onboarding_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/text_view_onboard_one"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="72dp"
+        android:fontFamily="@font/poppins_bold"
+        android:text="@string/scan_it"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img_onboard_one" />
+
+    <TextView
+        android:id="@+id/text_view_one_desc"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="42dp"
+        android:layout_marginTop="49dp"
+        android:layout_marginEnd="42dp"
+        android:fontFamily="@font/poppins_light"
+        android:text="@string/take_a_picture_of_fruit_and_plant_and_scan_it_with_your_own_smartphone_camera"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_view_onboard_one" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_onboard_one"
+        android:layout_width="101dp"
+        android:layout_height="29dp"
+        android:layout_marginEnd="47dp"
+        android:layout_marginBottom="34dp"
+        android:background="@drawable/btn_onboarding"
+        android:fontFamily="@font/poppins_semibold"
+        android:text="@string/next"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

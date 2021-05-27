@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Fresco</string>
+    <string name="splash_screen_image_content">splash screen image</string>
+    <string name="first_onboarding_content">first onboarding</string>
+    <string name="second_onboarding_content">second onboarding</string>
+    <string name="scan_it">SCAN IT</string>
+    <string name="take_a_picture_of_fruit_and_plant_and_scan_it_with_your_own_smartphone_camera">Take a picture of fruit and plant and scan it with your own smartphone camera</string>
+    <string name="next">Next</string>
+    <string name="get_the_knowledge">GET THE KNOWLEDGE</string>
+    <string name="make_yourself_to_know_better_with_the_fruits_and_plants">Make yourself to know better with the fruits and plants</string>
+    <string name="save_it">SAVE IT</string>
+    <string name="save_the_picture_to_the_cloud">Save the picture to the cloud</string>
+    <string name="login">Login</string>
+    <string name="logo_app_content">logo app</string>
+    <string name="password">Password</string>
+    <string name="username">Username</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="button_login">button login</string>
+    <string name="new_user_sign_up">New User? <b>Sign Up</b></string>
+    <string name="sign_up">Sign Up</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="already_have_account_login">Already Have Account? <b>Login</b></string>
+    <string name="phone_number">Phone Number</string>
+</resources>
