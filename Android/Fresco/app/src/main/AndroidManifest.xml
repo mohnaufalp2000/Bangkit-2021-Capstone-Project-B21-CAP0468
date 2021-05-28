@@ -9,7 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Fresco">
-        <activity android:name=".ui.auth.signup.SignUpActivity"/>
+        <activity android:name=".ui.main.CameraActivity"></activity>
+        <activity android:name=".ui.auth.password.ChangePassActivity" />
+        <activity android:name=".ui.auth.password.OtpActivity" />
+        <activity android:name=".ui.auth.signup.SignUpActivity" />
         <activity android:name=".ui.auth.login.LoginActivity" />
         <activity android:name=".ui.auth.AuthActivity" />
         <activity android:name=".ui.onboarding.OnboardingThree" />
@@ -22,7 +25,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
+        <activity android:name=".ui.main.MainActivity" />
 
         <meta-data
             android:name="preloaded_fonts"

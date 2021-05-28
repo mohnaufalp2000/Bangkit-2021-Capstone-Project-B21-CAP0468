@@ -21,4 +21,22 @@
     <string name="confirm_password">Confirm Password</string>
     <string name="already_have_account_login">Already Have Account? <b>Login</b></string>
     <string name="phone_number">Phone Number</string>
+    <string name="verify">Verify</string>
+    <string name="code_is_sent_to">Code is sent to </string>
+    <string name="verify_and_change_password">Verify and Change Password</string>
+    <string name="didn_t_receive_code_request_again">Didn’t receive code? <b>Request Again</b></string>
+    <string name="change_password">Change Password</string>
+    <string name="change">Change</string>
+    <string name="new_password">New Password</string>
+    <string name="home">Home</string>
+    <string name="upgrade">Upgrade</string>
+    <string name="button_fruit_recognition_content">button fruit recognition</string>
+    <string name="button_plant_recognition_content">button plant recognition</string>
+    <string name="take_a_picture">Take a picture</string>
+    <string name="scan">Scan</string>
+    <string name="upload_photo">Upload Photo</string>
+    <string name="take_photo">Take Photo</string>
+    <string name="image_capture_content">image capture</string>
+    <string name="button_upload_photo_content">button upload photo</string>
+    <string name="button_take_photo_content">button take photo</string>
 </resources>
