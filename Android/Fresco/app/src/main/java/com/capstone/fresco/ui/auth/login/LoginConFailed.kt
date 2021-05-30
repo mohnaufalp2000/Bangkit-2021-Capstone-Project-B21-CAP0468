@@ -20,7 +20,7 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.*
 import com.google.firebase.auth.FirebaseAuth.AuthStateListener
 
-class LoginConFailed : AppCompatActivity(), GoogleApiClient.OnConnectionFailedListener {
+open class LoginConFailed : AppCompatActivity(), GoogleApiClient.OnConnectionFailedListener {
 
     var progressDialog: ProgressDialog? = null  //Progres login
     private var googleButton: SignInButton? = null
@@ -33,7 +33,7 @@ class LoginConFailed : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLi
     private var user: FirebaseUser? = null //Check User login
     private var firebaseAnalytics: FirebaseAnalytics? = null
 
-    protected fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         googleButton = findViewById(R.id.login_google)
@@ -112,21 +112,21 @@ class LoginConFailed : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLi
         Toast.makeText(getApplicationContext(), "Koneksi Gagal", Toast.LENGTH_SHORT).show()
     }
 
-    protected fun onStart() {
+    override fun onStart() {
         super.onStart()
         //If user already login
         firebaseAuth!!.addAuthStateListener(authStateListener!!)
     }
 
     //When stopped, remove listener
-    protected fun onStop() {
+    override fun onStop() {
         super.onStop()
         if (authStateListener != null) {
             firebaseAuth!!.removeAuthStateListener(authStateListener!!)
         }
     }
 
-    protected fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         // Get access for SignIn If Firebase Auth completed
         if (requestCode == RC_SIGN_ID) {

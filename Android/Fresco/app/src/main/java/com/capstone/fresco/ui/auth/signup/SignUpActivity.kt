@@ -42,8 +42,8 @@ class SignUpActivity : AppCompatActivity() {
     //Check and get data from input user
     private fun checkDataUser() {
         //Get data
-        getEmail = email.getText().toString()
-        getPassword = password.getText().toString()
+        getEmail = email?.getText().toString()
+        getPassword = password?.getText().toString()
 
         //Check if is empty email and password
         if (TextUtils.isEmpty(getEmail) || TextUtils.isEmpty(getPassword)) {

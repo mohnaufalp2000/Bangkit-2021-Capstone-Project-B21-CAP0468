@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val Logout: Button = findViewById(R.id.logout)
+        //val logout: Button = findViewById(R.id.logout)
 
         auth = FirebaseAuth.getInstance()
 
@@ -30,9 +30,9 @@ class MainActivity : AppCompatActivity() {
                     finish()
                 }
             }
-        Logout.setOnClickListener {
+        /*logout.setOnClickListener {
             auth!!.signOut()
-        }
+        }*/
     }
 
     //Add Listener
