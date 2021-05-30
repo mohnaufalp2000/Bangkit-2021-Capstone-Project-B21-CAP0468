@@ -35,11 +35,11 @@ open class LoginConFailed : AppCompatActivity(), GoogleApiClient.OnConnectionFai
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
-        googleButton = findViewById(R.id.login_google)
+        //setContentView(R.layout.activity_login)
+        //googleButton = findViewById(R.id.login_google)
         FirebaseConnect()
         googleButton!!.setOnClickListener {
-            firebaseAnalytics.logEvent(FirebaseAnalytics.Event.LOGIN, null)
+            firebaseAnalytics?.logEvent(FirebaseAnalytics.Event.LOGIN, null)
             SignIn()
         }
     }
@@ -66,19 +66,19 @@ open class LoginConFailed : AppCompatActivity(), GoogleApiClient.OnConnectionFai
 
         // Config GoogleSignIn
         gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.default_web_client_id))
+            //.requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
         mGoogleApiClient = GoogleApiClient.Builder(this)
             .enableAutoManage(this, this)
-            .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+            //.addApi(Auth.GOOGLE_SIGN_IN_API, gso)
             .build()
     }
 
     //Config for sign in with google account
     private fun SignIn() {
-        val GSignIN: Intent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient)
-        startActivityForResult(GSignIN, RC_SIGN_ID)
+        //val gSignIn: Intent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient)
+        //startActivityForResult(gSignIn, RC_SIGN_ID)
         progressDialog!!.setMessage("Mohon Tunggu...")
         progressDialog!!.isIndeterminate = true
         progressDialog!!.show()
@@ -130,13 +130,13 @@ open class LoginConFailed : AppCompatActivity(), GoogleApiClient.OnConnectionFai
         super.onActivityResult(requestCode, resultCode, data)
         // Get access for SignIn If Firebase Auth completed
         if (requestCode == RC_SIGN_ID) {
-            val result: GoogleSignInResult = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
-            if (result.isSuccess()) {
+            //val result: GoogleSignInResult = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
+            /*if (result.isSuccess()) {
                 val account: GoogleSignInAccount = result.getSignInAccount()
                 firebaseAuthWithGoogle(account)
             } else {
                 progressDialog!!.dismiss()
-            }
+            }*/
         } else {
             progressDialog!!.dismiss()
         }

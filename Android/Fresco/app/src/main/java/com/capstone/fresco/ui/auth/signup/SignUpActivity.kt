@@ -25,16 +25,16 @@ class SignUpActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
 
-        email = findViewById(R.id.regEmail)
-        password = findViewById(R.id.regPassword)
-        regButton = findViewById(R.id.regUser)
-        progressBar = findViewById(R.id.progressBar)
-        progressBar.setVisibility(View.GONE)
+        //email = findViewById(R.id.regEmail)
+        //password = findViewById(R.id.regPassword)
+        //regButton = findViewById(R.id.regUser)
+        //progressBar = findViewById(R.id.progressBar)
+        //progressBar.setVisibility(View.GONE)
         auth = FirebaseAuth.getInstance()
 
         //Hide Password
-        password.setTransformationMethod(PasswordTransformationMethod.getInstance())
-        regButton.setOnClickListener(View.OnClickListener {
+        password?.setTransformationMethod(PasswordTransformationMethod.getInstance())
+        regButton?.setOnClickListener(View.OnClickListener {
             checkDataUser()
         })
     }

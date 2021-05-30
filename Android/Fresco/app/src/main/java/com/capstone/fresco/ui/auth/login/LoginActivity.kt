@@ -34,17 +34,17 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         setContentView(R.layout.activity_login)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
-        email = findViewById(R.id.getEmail)
-        password = findViewById(R.id.getPassword)
-        register = findViewById(R.id.register)
-        register.setOnClickListener(this)
-        login = findViewById(R.id.login)
-        login.setOnClickListener(this)
-        progressBar = findViewById(R.id.progressBar)
-        progressBar.setVisibility(View.GONE)
+        //email = findViewById(R.id.getEmail)
+        //password = findViewById(R.id.getPassword)
+        //register = findViewById(R.id.register)
+        //register.setOnClickListener(this)
+        //login = findViewById(R.id.login)
+        //login.setOnClickListener(this)
+        //progressBar = findViewById(R.id.progressBar)
+        //progressBar.setVisibility(View.GONE)
 
         //Hide Password
-        password.setTransformationMethod(PasswordTransformationMethod.getInstance())
+        password?.setTransformationMethod(PasswordTransformationMethod.getInstance())
 
         auth = FirebaseAuth.getInstance()
 
@@ -92,8 +92,8 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(v: View) {
         when (v.id) {
-            R.id.register -> startActivity(Intent(this@LoginActivity, SignUpActivity::class.java))
-            R.id.login -> {
+            //R.id.register -> startActivity(Intent(this@LoginActivity, SignUpActivity::class.java))
+            /*R.id.login -> {
                 //Get data from input user
                 getEmail = email?.getText().toString()
                 getPassword = password?.getText().toString()
@@ -106,7 +106,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                     loginUserAccount()
                     progressBar!!.visibility = View.VISIBLE
                 }
-            }
+            }*/
         }
     }
 }
