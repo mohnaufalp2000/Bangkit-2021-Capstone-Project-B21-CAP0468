@@ -1,9 +1,8 @@
 package com.capstone.fresco.ui.onboarding
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.capstone.fresco.databinding.ActivityOnboardingOneBinding
+import androidx.appcompat.app.AppCompatActivity
 import com.capstone.fresco.databinding.ActivityOnboardingTwoBinding
 
 class OnboardingTwo : AppCompatActivity() {

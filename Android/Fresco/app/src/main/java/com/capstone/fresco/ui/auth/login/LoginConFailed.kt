@@ -10,8 +10,10 @@ import android.widget.Toast
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
 import com.capstone.fresco.ui.auth.AuthActivity
+import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.auth.api.signin.GoogleSignInResult
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.GoogleApiClient
@@ -35,17 +37,17 @@ open class LoginConFailed : AppCompatActivity(), GoogleApiClient.OnConnectionFai
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //setContentView(R.layout.activity_login)
-        //googleButton = findViewById(R.id.login_google)
-        FirebaseConnect()
+        setContentView(R.layout.activity_login)
+        googleButton = findViewById(R.id.login_google)
+        firebaseConnect()
         googleButton!!.setOnClickListener {
             firebaseAnalytics?.logEvent(FirebaseAnalytics.Event.LOGIN, null)
-            SignIn()
+            signIn()
         }
     }
 
     //Config to connect with firebase
-    private fun FirebaseConnect() {
+    private fun firebaseConnect() {
         firebaseAnalytics =
             FirebaseAnalytics.getInstance(this) //Connect with Firebase Analytics
         firebaseAuth = FirebaseAuth.getInstance() //Connect with Firebase Auth
@@ -66,17 +68,17 @@ open class LoginConFailed : AppCompatActivity(), GoogleApiClient.OnConnectionFai
 
         // Config GoogleSignIn
         gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            //.requestIdToken(getString(R.string.default_web_client_id))
+            .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
         mGoogleApiClient = GoogleApiClient.Builder(this)
             .enableAutoManage(this, this)
-            //.addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+            .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
             .build()
     }
 
     //Config for sign in with google account
-    private fun SignIn() {
+    private fun signIn() {
         //val gSignIn: Intent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient)
         //startActivityForResult(gSignIn, RC_SIGN_ID)
         progressDialog!!.setMessage("Mohon Tunggu...")
@@ -85,7 +87,7 @@ open class LoginConFailed : AppCompatActivity(), GoogleApiClient.OnConnectionFai
     }
 
     //If user login successful
-    private fun firebaseAuthWithGoogle(account: GoogleSignInAccount) {
+    private fun firebaseAuthWithGoogle(account: GoogleSignInAccount?) {
         Log.d(TAG, "firebaseAuthWithGoogle:" + account.id)
         val credential = GoogleAuthProvider.getCredential(account.idToken, null)
         firebaseAuth!!.signInWithCredential(credential)
@@ -96,7 +98,7 @@ open class LoginConFailed : AppCompatActivity(), GoogleApiClient.OnConnectionFai
                         finish()
                     } else {
                         Toast.makeText(
-                            getApplicationContext(),
+                            applicationContext,
                             "Autentikasi Gagal",
                             Toast.LENGTH_SHORT
                         ).show()
@@ -109,7 +111,7 @@ open class LoginConFailed : AppCompatActivity(), GoogleApiClient.OnConnectionFai
     override fun onConnectionFailed(@NonNull connectionResult: ConnectionResult) {
         Log.d(TAG, "OnConnectionFailed$connectionResult")
         progressDialog!!.dismiss()
-        Toast.makeText(getApplicationContext(), "Koneksi Gagal", Toast.LENGTH_SHORT).show()
+        Toast.makeText(applicationContext, "Koneksi Gagal", Toast.LENGTH_SHORT).show()
     }
 
     override fun onStart() {
@@ -130,13 +132,15 @@ open class LoginConFailed : AppCompatActivity(), GoogleApiClient.OnConnectionFai
         super.onActivityResult(requestCode, resultCode, data)
         // Get access for SignIn If Firebase Auth completed
         if (requestCode == RC_SIGN_ID) {
-            //val result: GoogleSignInResult = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
-            /*if (result.isSuccess()) {
-                val account: GoogleSignInAccount = result.getSignInAccount()
-                firebaseAuthWithGoogle(account)
-            } else {
-                progressDialog!!.dismiss()
-            }*/
+            val result: GoogleSignInResult? = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
+            if (result != null) {
+                if (result.isSuccess) {
+                    val account: GoogleSignInAccount? = result.signInAccount
+                    firebaseAuthWithGoogle(account)
+                } else {
+                    progressDialog!!.dismiss()
+                }
+            }
         } else {
             progressDialog!!.dismiss()
         }

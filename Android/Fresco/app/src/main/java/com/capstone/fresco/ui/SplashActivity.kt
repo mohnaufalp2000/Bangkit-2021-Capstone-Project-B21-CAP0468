@@ -1,12 +1,11 @@
 package com.capstone.fresco.ui
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.view.animation.AnimationUtils
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import com.capstone.fresco.MainActivity
 import com.capstone.fresco.R
 import com.capstone.fresco.databinding.ActivitySplashBinding
 import com.capstone.fresco.ui.onboarding.OnboardingOne

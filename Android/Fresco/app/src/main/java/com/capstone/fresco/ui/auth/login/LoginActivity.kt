@@ -1,9 +1,9 @@
 package com.capstone.fresco.ui.auth.login
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
-import android.text.TextUtils
 import android.text.method.PasswordTransformationMethod
 import android.view.View
 import android.widget.Button
@@ -12,7 +12,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.capstone.fresco.MainActivity
 import com.capstone.fresco.R
-import com.capstone.fresco.ui.auth.signup.SignUpActivity
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuth.AuthStateListener
@@ -29,6 +28,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     private var getEmail: String? = null
     private var getPassword: String? = null
 
+    @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -44,7 +44,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         //progressBar.setVisibility(View.GONE)
 
         //Hide Password
-        password?.setTransformationMethod(PasswordTransformationMethod.getInstance())
+        password?.transformationMethod = PasswordTransformationMethod.getInstance()
 
         auth = FirebaseAuth.getInstance()
 

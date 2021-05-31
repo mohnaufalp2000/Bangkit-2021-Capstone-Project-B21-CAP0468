@@ -1,11 +1,8 @@
 package com.capstone.fresco.ui.auth
 
 import android.os.Bundle
-import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import com.capstone.fresco.R
 import com.capstone.fresco.databinding.ActivityAuthBinding
-import com.google.firebase.auth.FirebaseAuth
 
 class AuthActivity : AppCompatActivity() {
 

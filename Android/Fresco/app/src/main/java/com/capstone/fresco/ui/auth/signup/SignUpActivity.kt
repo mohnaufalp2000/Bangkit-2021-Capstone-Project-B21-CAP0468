@@ -33,17 +33,17 @@ class SignUpActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
 
         //Hide Password
-        password?.setTransformationMethod(PasswordTransformationMethod.getInstance())
-        regButton?.setOnClickListener(View.OnClickListener {
+        password?.transformationMethod = PasswordTransformationMethod.getInstance()
+        regButton?.setOnClickListener {
             checkDataUser()
-        })
+        }
     }
 
     //Check and get data from input user
     private fun checkDataUser() {
         //Get data
-        getEmail = email?.getText().toString()
-        getPassword = password?.getText().toString()
+        getEmail = email?.text.toString()
+        getPassword = password?.text.toString()
 
         //Check if is empty email and password
         if (TextUtils.isEmpty(getEmail) || TextUtils.isEmpty(getPassword)) {
