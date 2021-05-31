@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "87822590835",
+    "project_id": "capstone-project-fresco",
+    "storage_bucket": "capstone-project-fresco.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:87822590835:android:b499b2a596679f0f77db06",
+        "android_client_info": {
+          "package_name": "com.capstone.fresco"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "87822590835-9ho7fvm9crh663jccuf6j2u1lnun6987.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAamvf28sA_dzIsTTBe3Zvx_sndrCPdC2w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "87822590835-9ho7fvm9crh663jccuf6j2u1lnun6987.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
