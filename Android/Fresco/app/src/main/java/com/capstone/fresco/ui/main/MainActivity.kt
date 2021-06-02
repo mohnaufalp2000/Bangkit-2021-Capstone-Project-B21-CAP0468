@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.capstone.fresco.databinding.ActivityMainBinding
-import com.capstone.fresco.ui.ads.AdsActivity
+//import com.capstone.fresco.ui.ads.AdsActivity
 import com.capstone.fresco.ui.auth.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuth.AuthStateListener
@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.btnAds.setOnClickListener {
-            startActivity(Intent(this@MainActivity, AdsActivity::class.java))
+//            startActivity(Intent(this@MainActivity, AdsActivity::class.java))
         }
     }
 
