@@ -1,12 +1,15 @@
 package com.capstone.fresco.ui.main
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.capstone.fresco.R
+import androidx.appcompat.app.AppCompatActivity
+import com.capstone.fresco.databinding.ActivityAuthBinding
 
 class CameraActivity : AppCompatActivity() {
+
+    private val binding by lazy { ActivityAuthBinding.inflate(layoutInflater) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_camera)
+        setContentView(binding.root)
     }
 }

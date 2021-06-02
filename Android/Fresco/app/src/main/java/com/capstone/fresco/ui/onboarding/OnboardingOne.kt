@@ -1,11 +1,11 @@
 package com.capstone.fresco.ui.onboarding
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.capstone.fresco.ui.main.MainActivity
+import androidx.appcompat.app.AppCompatActivity
 import com.capstone.fresco.core.util.Preferences
 import com.capstone.fresco.databinding.ActivityOnboardingOneBinding
+import com.capstone.fresco.ui.main.MainActivity
 
 class OnboardingOne : AppCompatActivity() {
 
@@ -18,7 +18,7 @@ class OnboardingOne : AppCompatActivity() {
 
         preferences = Preferences(this)
 
-        if (preferences.getState("onboarding").equals("1")){
+        if (preferences.getState("onboarding").equals("1")) {
             finishAffinity()
             startActivity(Intent(this, MainActivity::class.java))
         }

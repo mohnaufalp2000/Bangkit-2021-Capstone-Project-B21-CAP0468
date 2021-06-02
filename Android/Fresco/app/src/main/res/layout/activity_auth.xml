@@ -37,8 +37,8 @@
         android:layout_marginTop="10dp"
         android:fontFamily="@font/poppins_light"
         android:text="Login to get free trial one month"
-        android:textSize="12sp"
         android:textColor="@color/black"
+        android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_login" />
@@ -49,9 +49,9 @@
         android:layout_height="45dp"
         android:layout_marginTop="25dp"
         android:background="@drawable/btn_skip"
+        android:fontFamily="@font/poppins_semibold"
         android:text="Skip"
         android:textColor="#686868"
-        android:fontFamily="@font/poppins_semibold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_view_login_desc" />

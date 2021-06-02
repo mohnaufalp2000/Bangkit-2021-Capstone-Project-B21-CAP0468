@@ -21,11 +21,11 @@
 
     <ImageView
         android:id="@+id/image_view_logo_app"
-        android:contentDescription="@string/logo_app_content"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_marginTop="45dp"
         android:background="@drawable/logo"
+        android:contentDescription="@string/logo_app_content"
         android:elevation="25dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -59,9 +59,9 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edt_new_pass"
-                    android:inputType="textPassword"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword" />
 
             </com.google.android.material.textfield.TextInputLayout>
 

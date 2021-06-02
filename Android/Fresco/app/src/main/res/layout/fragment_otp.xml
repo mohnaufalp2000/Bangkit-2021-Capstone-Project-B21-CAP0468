@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.auth.password.OtpActivity">
+    tools:context=".ui.auth.password.OtpFragment">
 
     <TextView
         android:id="@+id/text_view_verify_title"
@@ -69,21 +69,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="@string/didn_t_receive_code_request_again"
         android:fontFamily="@font/poppins_light"
+        android:text="@string/didn_t_receive_code_request_again"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tf_otp" />
 
     <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_verify"
         android:layout_width="270dp"
         android:layout_height="45dp"
-        android:background="@drawable/btn_login"
         android:layout_marginBottom="67dp"
+        android:background="@drawable/btn_login"
+        android:fontFamily="@font/poppins_semibold"
         android:text="@string/verify_and_change_password"
         android:textColor="@color/white"
-        android:fontFamily="@font/poppins_semibold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
