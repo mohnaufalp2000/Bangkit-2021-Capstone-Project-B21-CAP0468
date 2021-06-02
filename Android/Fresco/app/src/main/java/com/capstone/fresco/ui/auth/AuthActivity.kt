@@ -11,10 +11,5 @@ class AuthActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        //val logout: Button = findViewById(R.id.logout)
-        /*logout.setOnClickListener { //Digunakan Untuk Logout
-            FirebaseAuth.getInstance().signOut()
-            finish()
-        }*/
     }
 }

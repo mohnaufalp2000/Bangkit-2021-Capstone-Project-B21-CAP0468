@@ -9,10 +9,10 @@
 
     <ImageView
         android:id="@+id/img_splash_screen"
-        android:contentDescription="@string/splash_screen_image_content"
         android:layout_width="wrap_content"
         android:layout_height="150dp"
         android:background="@drawable/frescosplash"
+        android:contentDescription="@string/splash_screen_image_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

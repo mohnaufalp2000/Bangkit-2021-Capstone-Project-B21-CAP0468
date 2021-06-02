@@ -1,21 +1,25 @@
-package com.capstone.fresco
+package com.capstone.fresco.ui.main
 
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.capstone.fresco.databinding.ActivityMainBinding
+import com.capstone.fresco.ui.ads.AdsActivity
 import com.capstone.fresco.ui.auth.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuth.AuthStateListener
 
 class MainActivity : AppCompatActivity() {
 
-    private var authListener: AuthStateListener? = null
-    private var auth: FirebaseAuth? = null
+    private lateinit var authListener: AuthStateListener
+    private lateinit var auth: FirebaseAuth
+
+    private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        //val logout: Button = findViewById(R.id.logout)
+        setContentView(binding.root)
 
         auth = FirebaseAuth.getInstance()
 
@@ -24,27 +28,38 @@ class MainActivity : AppCompatActivity() {
             AuthStateListener { firebaseAuth ->
                 val user = firebaseAuth.currentUser
                 if (user == null) {
-                    Toast.makeText(this@MainActivity, "Logout Success", Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(this@MainActivity, LoginActivity::class.java))
+                    startActivity(
+                        Intent(
+                            this@MainActivity,
+                            LoginActivity::class.java
+                        )
+                    )
                     finish()
                 }
             }
-        /*logout.setOnClickListener {
-            auth!!.signOut()
-        }*/
+        binding.btnLogout.setOnClickListener {
+            Toast.makeText(
+                this@MainActivity,
+                "Logout Success",
+                Toast.LENGTH_SHORT
+            ).show()
+            auth.signOut()
+        }
+
+        binding.btnAds.setOnClickListener {
+            startActivity(Intent(this@MainActivity, AdsActivity::class.java))
+        }
     }
 
     //Add Listener
     override fun onStart() {
         super.onStart()
-        auth!!.addAuthStateListener(authListener!!)
+        auth.addAuthStateListener(authListener)
     }
 
     //Remove Listener
     override fun onStop() {
         super.onStop()
-        if (authListener != null) {
-            auth!!.removeAuthStateListener(authListener!!)
-        }
+        auth.removeAuthStateListener(authListener)
     }
 }

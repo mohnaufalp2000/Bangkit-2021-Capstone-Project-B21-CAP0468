@@ -1,11 +1,11 @@
 package com.capstone.fresco.ui.onboarding
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.capstone.fresco.ui.main.MainActivity
+import androidx.appcompat.app.AppCompatActivity
 import com.capstone.fresco.core.util.Preferences
 import com.capstone.fresco.databinding.ActivityOnboardingThreeBinding
+import com.capstone.fresco.ui.main.MainActivity
 
 class OnboardingThree : AppCompatActivity() {
 
