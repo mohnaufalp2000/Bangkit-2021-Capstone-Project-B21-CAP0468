@@ -46,12 +46,10 @@ class LoginActivity : AppCompatActivity() {
 
         binding.txtSignUp.setOnClickListener {
             startActivity(Intent(this@LoginActivity, SignUpActivity::class.java))
-            return@setOnClickListener
         }
 
         binding.txtForgotPassword.setOnClickListener {
             startActivity(Intent(this@LoginActivity, ResetPassActivity::class.java))
-            return@setOnClickListener
         }
 
     }

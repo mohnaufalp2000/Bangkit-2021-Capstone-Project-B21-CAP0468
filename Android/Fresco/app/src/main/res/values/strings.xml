@@ -51,7 +51,12 @@
     This is an ad unit ID for an interstitial test ad. Replace with your own interstitial ad unit id.
     For more information, see https://support.google.com/admob/answer/3052638
 <!- -->
-    <string name="interstitial_ad_unit_id">YOUR_INTERSTITIAL_AD_UNIT_ID</string>
+    <string name="interstitial_ad_unit_id">ca-app-pub-7074988547859559/7690066729</string>
     <string name="reset">reset</string>
     <string name="scan_again">scan again</string>
+    <string name="username">username</string>
+    <string name="profile">profile</string>
+    <string name="text_username">username</string>
+    <string name="text_email">email@gmail.com</string>
+    <string name="text_phone">081212121212</string>
 </resources>

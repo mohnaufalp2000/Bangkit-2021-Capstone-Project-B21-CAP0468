@@ -17,8 +17,10 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
+            app:menu="@menu/profile"
             app:title="@string/home"
             app:titleTextColor="@color/white" />
 
@@ -59,20 +61,6 @@
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_logout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/btn_login"
-        android:text="@string/logout"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_plant"
-        app:layout_constraintVertical_bias="0.217" />
-
-    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_ads"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -82,7 +70,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_logout" />
-
+        app:layout_constraintTop_toBottomOf="@+id/btn_plant" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
