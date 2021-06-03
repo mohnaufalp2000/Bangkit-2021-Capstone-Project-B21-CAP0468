@@ -54,4 +54,6 @@
     <string name="interstitial_ad_unit_id">YOUR_INTERSTITIAL_AD_UNIT_ID</string>
     <string name="reset">reset</string>
     <string name="scan_again">scan again</string>
+    <string name="plant">Plant</string>
+    <string name="fruit">Fruit</string>
 </resources>

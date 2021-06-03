@@ -77,6 +77,17 @@ class CameraPlantActivity : AppCompatActivity() {
             startActivityForResult(intent, CameraFruitActivity.REQUEST_UPLOAD_PICTURE)
         }
 
+        toolbarSetup()
+    }
+
+    private fun toolbarSetup() {
+        setSupportActionBar(binding.tbPlant)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+
+        binding.tbPlant.setNavigationOnClickListener {
+            finish()
+        }
     }
 
     private fun resizeImage(bitmap: Bitmap, width: Int, height: Int, filter: Boolean): Bitmap? =
