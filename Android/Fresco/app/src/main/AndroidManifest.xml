@@ -3,6 +3,7 @@
     package="com.capstone.fresco">
     <!-- Include required permissions for Google Mobile Ads to run. -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.android.vending.BILLING" />
@@ -18,6 +19,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Fresco">
+
+        <activity android:name=".ui.ads.AdsActivity" />
+        <activity android:name=".ui.ProfileActivity" />
+
         <activity android:name=".ui.auth.password.ResetPassActivity" />
         <!--
             Adding this meta data is required as of Google Mobile Ads SDK version 17.0.0 as explained in
@@ -33,6 +38,8 @@
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-3940256099942544~3347511713" />
+      
+        <activity android:name=".ui.main.CameraFruitActivity" />
         <activity android:name=".ui.main.CameraPlantActivity"/>
         <activity android:name=".ui.main.CameraFruitActivity"/>
         <activity android:name=".ui.auth.password.ChangePassActivity" />

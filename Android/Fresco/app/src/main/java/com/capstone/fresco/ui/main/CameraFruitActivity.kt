@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.capstone.fresco.ui.main
 
 import android.content.Intent
@@ -18,7 +20,7 @@ import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
 class CameraFruitActivity : AppCompatActivity() {
 
     private val binding by lazy { ActivityCameraFruitBinding.inflate(layoutInflater) }
-    private lateinit var bitmap : Bitmap
+    private lateinit var bitmap: Bitmap
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
@@ -46,6 +48,9 @@ class CameraFruitActivity : AppCompatActivity() {
 
             // From model
             val model = Fruit.newInstance(this)
+
+            val inputFeature0 =
+                TensorBuffer.createFixedSize(intArrayOf(1, 100, 100, 3), DataType.FLOAT32)
 
             val inputFeature0 = TensorBuffer.createFixedSize(intArrayOf(1, 100, 100, 3), DataType.FLOAT32)
             val resizedImage = resizeImage(bitmap, 200, 200, true)
@@ -95,7 +100,7 @@ class CameraFruitActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        when{
+        when {
             requestCode == REQUEST_TAKE_PICTURE && resultCode == RESULT_OK -> {
                 bitmap = data?.extras?.get("data") as Bitmap
                 binding.imgCapture.setImageBitmap(bitmap)
@@ -125,7 +130,7 @@ class CameraFruitActivity : AppCompatActivity() {
         return index
     }
 
-    companion object{
+    companion object {
         const val REQUEST_TAKE_PICTURE = 1
         const val REQUEST_UPLOAD_PICTURE = 2
     }

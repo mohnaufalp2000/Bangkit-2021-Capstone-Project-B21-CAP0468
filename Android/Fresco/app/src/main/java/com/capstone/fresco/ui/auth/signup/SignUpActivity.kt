@@ -9,10 +9,16 @@ import androidx.appcompat.app.AppCompatActivity
 import com.capstone.fresco.databinding.ActivitySignUpBinding
 import com.capstone.fresco.ui.auth.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.FirebaseFirestore
 
 class SignUpActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
+    private lateinit var db: FirebaseFirestore
+    private lateinit var docRef: DocumentReference
+    private lateinit var userMap: HashMap<String, Any>
+    private var userId: String? = null
 
     private val binding by lazy { ActivitySignUpBinding.inflate(layoutInflater) }
 
@@ -21,10 +27,10 @@ class SignUpActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         auth = FirebaseAuth.getInstance()
+        db = FirebaseFirestore.getInstance()
 
         binding.btnSignUp.setOnClickListener {
             checkDataUser()
-            return@setOnClickListener
         }
         binding.txtLogin.setOnClickListener {
             startActivity(
@@ -33,21 +39,23 @@ class SignUpActivity : AppCompatActivity() {
                     LoginActivity::class.java
                 )
             )
-            return@setOnClickListener
         }
     }
 
     //Check and get data from input user
     private fun checkDataUser() {
         //Get data
+        val getUsername = binding.edtUsername.text.toString().trim()
         val getEmail = binding.edtEmail.text.toString().trim()
         val getPassword = binding.edtPassword.text.toString().trim()
         val getConfirmPassword = binding.edtConfirmPass.text.toString().trim()
         val getPhoneNumber = binding.edtPhone.text.toString().trim()
 
         //Check if is empty email and password
-        if (getEmail.isEmpty() || getPassword.isEmpty() || getConfirmPassword.isEmpty() /*|| getPhoneNumber.isEmpty()*/) {
+        if (getUsername.isEmpty() || getEmail.isEmpty() || getPassword.isEmpty() || getConfirmPassword.isEmpty() || getPhoneNumber.isEmpty()) {
             binding.apply {
+                edtUsername.error = "Username can't be empty"
+                edtUsername.requestFocus()
                 edtEmail.error = "Email can't be empty"
                 edtEmail.requestFocus()
                 edtPassword.error = "Password can't be empty"
@@ -97,8 +105,11 @@ class SignUpActivity : AppCompatActivity() {
     }
 
     //Sign Up
-    private fun createUserAccount(getUsername: String, getPassword: String) {
-        auth.createUserWithEmailAndPassword(getUsername, getPassword)
+    private fun createUserAccount(getEmail: String, getPassword: String) {
+        val getUsername = binding.edtUsername.text.toString().trim()
+        val getPhoneNumber = binding.edtPhone.text.toString().trim()
+
+        auth.createUserWithEmailAndPassword(getEmail, getPassword)
             .addOnCompleteListener { task -> //Check success status for sign up
                 if (task.isSuccessful) {
                     Toast.makeText(
@@ -106,6 +117,27 @@ class SignUpActivity : AppCompatActivity() {
                         "Sign Up Success",
                         Toast.LENGTH_SHORT
                     ).show()
+                    userId = auth.currentUser?.uid
+                    docRef = db.collection("user").document(userId.toString())
+                    userMap = HashMap()
+                    binding.apply {
+                        userMap["username"] = getUsername
+                        userMap["email"] = getEmail
+                        userMap["phone"] = getPhoneNumber
+                    }
+                    docRef.set(userMap).addOnSuccessListener {
+                        Toast.makeText(
+                            this@SignUpActivity,
+                            "Map Success $userId",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }.addOnFailureListener {
+                        Toast.makeText(
+                            this@SignUpActivity,
+                            "Map Failed $userId",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                     Intent(
                         this@SignUpActivity,
                         LoginActivity::class.java

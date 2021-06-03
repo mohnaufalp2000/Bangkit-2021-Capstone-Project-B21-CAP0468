@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.capstone.fresco.core.util.Preferences
 import com.capstone.fresco.databinding.ActivityOnboardingThreeBinding
-import com.capstone.fresco.ui.main.MainActivity
+import com.capstone.fresco.ui.auth.AuthActivity
 
 class OnboardingThree : AppCompatActivity() {
 
@@ -20,7 +20,7 @@ class OnboardingThree : AppCompatActivity() {
 
         binding.btnOnboardThree.setOnClickListener {
             preferences.setState("onboarding", "1")
-            startActivity(Intent(this, MainActivity::class.java))
+            startActivity(Intent(this, AuthActivity::class.java))
             finishAffinity()
         }
 
