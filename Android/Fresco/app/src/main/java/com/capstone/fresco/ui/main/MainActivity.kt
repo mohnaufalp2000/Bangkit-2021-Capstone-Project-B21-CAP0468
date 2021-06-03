@@ -2,6 +2,7 @@ package com.capstone.fresco.ui.main
 
 //import com.capstone.fresco.ui.ads.AdsActivity
 import android.content.Intent
+import android.graphics.Camera
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.capstone.fresco.R
@@ -22,6 +23,14 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
+        binding.btnFruit.setOnClickListener {
+            startActivity(Intent(this, CameraFruitActivity::class.java))
+        }
+
+        binding.btnPlant.setOnClickListener {
+            startActivity(Intent(this, CameraPlantActivity::class.java))
+        }
 
         auth = FirebaseAuth.getInstance()
 

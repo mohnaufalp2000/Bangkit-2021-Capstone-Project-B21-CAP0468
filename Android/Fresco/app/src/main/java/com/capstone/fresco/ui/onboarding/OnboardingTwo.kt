@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.capstone.fresco.databinding.ActivityOnboardingTwoBinding
+import maes.tech.intentanim.CustomIntent
 
 class OnboardingTwo : AppCompatActivity() {
 
@@ -16,7 +17,13 @@ class OnboardingTwo : AppCompatActivity() {
 
         binding.btnOnboardTwo.setOnClickListener {
             startActivity(Intent(this, OnboardingThree::class.java))
+            CustomIntent.customType(this, "left-to-right")
         }
-
     }
+
+    override fun finish() {
+        super.finish()
+        CustomIntent.customType(this, "right-to-left")
+    }
+
 }

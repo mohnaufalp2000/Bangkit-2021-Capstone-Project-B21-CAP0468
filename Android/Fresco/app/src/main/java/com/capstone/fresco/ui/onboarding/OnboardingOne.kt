@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.capstone.fresco.core.util.Preferences
 import com.capstone.fresco.databinding.ActivityOnboardingOneBinding
 import com.capstone.fresco.ui.main.MainActivity
+import maes.tech.intentanim.CustomIntent
 
 class OnboardingOne : AppCompatActivity() {
 
@@ -25,7 +26,14 @@ class OnboardingOne : AppCompatActivity() {
 
         binding.btnOnboardOne.setOnClickListener {
             startActivity(Intent(this, OnboardingTwo::class.java))
+            CustomIntent.customType(this, "left-to-right")
         }
 
     }
+
+    override fun finish() {
+        super.finish()
+        CustomIntent.customType(this, "right-to-left")
+    }
+
 }
