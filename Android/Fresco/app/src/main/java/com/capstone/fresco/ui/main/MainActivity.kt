@@ -26,6 +26,10 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, CameraFruitActivity::class.java))
         }
 
+        binding.btnPlant.setOnClickListener {
+            startActivity(Intent(this, CameraPlantActivity::class.java))
+        }
+
         auth = FirebaseAuth.getInstance()
 
         //Check if user have been logout

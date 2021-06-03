@@ -3,21 +3,21 @@ package com.capstone.fresco.ui.main
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import com.capstone.fresco.databinding.ActivityCameraFruitBinding
+import com.capstone.fresco.databinding.ActivityCameraPlantBinding
 import com.capstone.fresco.ml.Fruit
+import com.capstone.fresco.ml.Leaf
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.support.image.TensorImage
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
 
+class CameraPlantActivity : AppCompatActivity() {
 
-class CameraFruitActivity : AppCompatActivity() {
-
-    private val binding by lazy { ActivityCameraFruitBinding.inflate(layoutInflater) }
+    private val binding by lazy { ActivityCameraPlantBinding.inflate(layoutInflater) }
     private lateinit var bitmap : Bitmap
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,7 +25,7 @@ class CameraFruitActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        // Scan again after scan a fruit
+        // Scan again after scan a plant
         binding.btnScanAgain.setOnClickListener {
             binding.apply {
                 containerDetail.visibility = View.GONE
@@ -33,19 +33,19 @@ class CameraFruitActivity : AppCompatActivity() {
             }
         }
 
-        // Scan a fruit
+        // Scan a plant
         binding.btnScan.setOnClickListener {
             binding.apply {
                 containerDetail.visibility = View.VISIBLE
                 containerScan.visibility = View.GONE
             }
 
-            val labels = "fruit-labels.txt"
+            val labels = "leaf-labels.txt"
             val input = application.assets.open(labels).bufferedReader().use { it.readText() }
             val list = input.split("\n")
 
             // From model
-            val model = Fruit.newInstance(this)
+            val model = Leaf.newInstance(this)
 
             val inputFeature0 = TensorBuffer.createFixedSize(intArrayOf(1, 100, 100, 3), DataType.FLOAT32)
             val resizedImage = resizeImage(bitmap, 200, 200, true)
@@ -67,14 +67,14 @@ class CameraFruitActivity : AppCompatActivity() {
         // Take picture with camera
         binding.btnCapture.setOnClickListener {
             val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            startActivityForResult(intent, REQUEST_TAKE_PICTURE)
+            startActivityForResult(intent, CameraFruitActivity.REQUEST_TAKE_PICTURE)
         }
 
         // Upload image from gallery
         binding.btnUpload.setOnClickListener {
             val intent = Intent(Intent.ACTION_PICK)
             intent.type = "image/"
-            startActivityForResult(intent, REQUEST_UPLOAD_PICTURE)
+            startActivityForResult(intent, CameraFruitActivity.REQUEST_UPLOAD_PICTURE)
         }
 
     }
@@ -102,7 +102,7 @@ class CameraFruitActivity : AppCompatActivity() {
 
         var index = 0
         var min = 0.0f
-        val range = 0..130
+        val range = 0..50
 
 
         for(i in range){
@@ -118,5 +118,4 @@ class CameraFruitActivity : AppCompatActivity() {
         const val REQUEST_TAKE_PICTURE = 1
         const val REQUEST_UPLOAD_PICTURE = 2
     }
-
 }
