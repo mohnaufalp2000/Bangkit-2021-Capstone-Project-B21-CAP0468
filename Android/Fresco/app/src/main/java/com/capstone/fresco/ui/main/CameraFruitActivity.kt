@@ -11,6 +11,7 @@ import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import com.capstone.fresco.R
 import com.capstone.fresco.databinding.ActivityCameraFruitBinding
 import com.capstone.fresco.ml.Fruit
 import org.tensorflow.lite.DataType
@@ -65,11 +66,14 @@ class CameraFruitActivity : AppCompatActivity() {
 
             val outputs = model.process(inputFeature0)
             val outputFeature0 = outputs.outputFeature0AsTensorBuffer.floatArray
-            val data = getTitleFruit(outputFeature0)
-            Log.d("indexfruit", data.toString())
 
-            binding.txtTitle.text = list[data]
-//            binding.txtTitle.text = outputFeature0[1].toString()
+            // If image not in data
+            if (outputFeature0.size > 130){
+                binding.txtTitle.text = getString(R.string.not_found)
+            } else {
+                val data = getTitleFruit(outputFeature0)
+                binding.txtTitle.text = list[data]
+            }
 
             model.close()
 

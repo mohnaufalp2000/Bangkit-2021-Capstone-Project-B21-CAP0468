@@ -62,5 +62,6 @@
     <string name="text_phone">081212121212</string>
     <string name="plant">Plant</string>
     <string name="fruit">Fruit</string>
+    <string name="not_found">Not Found</string>
 
 </resources>
