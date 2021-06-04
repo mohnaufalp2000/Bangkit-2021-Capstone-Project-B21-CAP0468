@@ -7,6 +7,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -49,21 +50,26 @@ class CameraFruitActivity : AppCompatActivity() {
             // From model
             val model = Fruit.newInstance(this)
 
-            val inputFeature0 =
-                TensorBuffer.createFixedSize(intArrayOf(1, 100, 100, 3), DataType.FLOAT32)
+            val inputFeature0 = TensorBuffer.createFixedSize(
+                intArrayOf(1, 100, 100, 3),
+                DataType.FLOAT32
+            )
+            val resizedImage = resizeImage(bitmap, 100, 100, false)
 
-            val inputFeature0 = TensorBuffer.createFixedSize(intArrayOf(1, 100, 100, 3), DataType.FLOAT32)
-            val resizedImage = resizeImage(bitmap, 200, 200, true)
+            val tensorImage = TensorImage(DataType.FLOAT32)
+            tensorImage.load(resizedImage)
+            val byteBuffer = tensorImage.buffer
 
-            val image = TensorImage.fromBitmap(resizedImage)
-            inputFeature0.loadBuffer(image.buffer)
+//            val image = TensorImage.fromBitmap(resizedImage)
+            inputFeature0.loadBuffer(byteBuffer)
 
             val outputs = model.process(inputFeature0)
-            val outputFeature0 = outputs.outputFeature0AsTensorBuffer
-
-            val data = getString(outputFeature0.floatArray)
+            val outputFeature0 = outputs.outputFeature0AsTensorBuffer.floatArray
+            val data = getTitleFruit(outputFeature0)
+            Log.d("indexfruit", data.toString())
 
             binding.txtTitle.text = list[data]
+//            binding.txtTitle.text = outputFeature0[1].toString()
 
             model.close()
 
@@ -114,12 +120,11 @@ class CameraFruitActivity : AppCompatActivity() {
         }
     }
 
-    private fun getString(arr: FloatArray) : Int {
+    private fun getTitleFruit(arr: FloatArray) : Int {
 
         var index = 0
         var min = 0.0f
         val range = 0..130
-
 
         for(i in range){
             if (arr[i]>min){

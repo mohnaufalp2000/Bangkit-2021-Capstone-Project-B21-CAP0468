@@ -15,6 +15,10 @@ android {
         mlModelBinding true
     }
 
+    aaptOptions {
+        noCompress "tflite", "lite"
+    }
+
     defaultConfig {
         applicationId "com.capstone.fresco"
         minSdkVersion 22
@@ -129,6 +133,12 @@ dependencies {
     // Tensorflow
     implementation 'org.tensorflow:tensorflow-lite-support:0.1.0'
     implementation 'org.tensorflow:tensorflow-lite-metadata:0.1.0'
+    implementation 'org.tensorflow:tensorflow-lite:2.4.0'
 
-
+    implementation platform('com.google.firebase:firebase-bom:28.0.1')
+    implementation 'com.google.firebase:firebase-ml-modeldownloader-ktx'
+    implementation 'com.google.firebase:firebase-analytics'
+//    implementation 'com.google.firebase:firebase-ml-model-interpreter'
 }
+
+
