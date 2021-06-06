@@ -9,7 +9,6 @@ import android.provider.MediaStore
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
 import com.capstone.fresco.databinding.ActivityCameraPlantBinding
-import com.capstone.fresco.ml.Fruit
 import com.capstone.fresco.ml.Leaf
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.support.image.TensorImage
