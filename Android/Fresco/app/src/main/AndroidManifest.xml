@@ -41,6 +41,7 @@
 
         <activity android:name=".ui.main.CameraFruitActivity" />
         <activity android:name=".ui.main.CameraPlantActivity" />
+
         <activity android:name=".ui.auth.password.ChangePassActivity" />
         <activity android:name=".ui.auth.signup.SignUpActivity" />
         <activity android:name=".ui.auth.login.LoginActivity" />
