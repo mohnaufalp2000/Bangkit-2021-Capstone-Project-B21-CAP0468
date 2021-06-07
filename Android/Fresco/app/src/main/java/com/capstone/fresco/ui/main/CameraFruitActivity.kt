@@ -51,8 +51,6 @@ class CameraFruitActivity : AppCompatActivity() {
 
             val inputFeature0 =
                 TensorBuffer.createFixedSize(intArrayOf(1, 100, 100, 3), DataType.FLOAT32)
-
-            val inputFeature0 = TensorBuffer.createFixedSize(intArrayOf(1, 100, 100, 3), DataType.FLOAT32)
             val resizedImage = resizeImage(bitmap, 200, 200, true)
 
             val image = TensorImage.fromBitmap(resizedImage)
@@ -96,7 +94,7 @@ class CameraFruitActivity : AppCompatActivity() {
     }
 
     private fun resizeImage(bitmap: Bitmap, width: Int, height: Int, filter: Boolean): Bitmap? =
-            Bitmap.createScaledBitmap(bitmap, width, height, filter)
+        Bitmap.createScaledBitmap(bitmap, width, height, filter)
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -107,22 +105,22 @@ class CameraFruitActivity : AppCompatActivity() {
             }
             requestCode == REQUEST_UPLOAD_PICTURE && resultCode == RESULT_OK -> {
                 binding.imgCapture.setImageURI(data?.data)
-                val uri : Uri? =  data?.data
+                val uri: Uri? = data?.data
 
                 bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, uri)
             }
         }
     }
 
-    private fun getString(arr: FloatArray) : Int {
+    private fun getString(arr: FloatArray): Int {
 
         var index = 0
         var min = 0.0f
         val range = 0..130
 
 
-        for(i in range){
-            if (arr[i]>min){
+        for (i in range) {
+            if (arr[i] > min) {
                 index = i
                 min = arr[i]
             }

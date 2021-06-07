@@ -37,11 +37,10 @@
         -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-3940256099942544~3347511713" />
-      
+            android:value="ca-app-pub-7074988547859559~4566243771" />
+
         <activity android:name=".ui.main.CameraFruitActivity" />
-        <activity android:name=".ui.main.CameraPlantActivity"/>
-        <activity android:name=".ui.main.CameraFruitActivity"/>
+        <activity android:name=".ui.main.CameraPlantActivity" />
         <activity android:name=".ui.auth.password.ChangePassActivity" />
         <activity android:name=".ui.auth.signup.SignUpActivity" />
         <activity android:name=".ui.auth.login.LoginActivity" />

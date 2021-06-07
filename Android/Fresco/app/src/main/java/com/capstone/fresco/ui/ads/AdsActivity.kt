@@ -12,6 +12,7 @@ import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 class AdsActivity : AppCompatActivity() {
 
     private val binding by lazy { ActivityAdsBinding.inflate(layoutInflater) }
+
     private var ads: InterstitialAd? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,7 +25,7 @@ class AdsActivity : AppCompatActivity() {
 
         InterstitialAd.load(
             this,
-            "ca-app-pub-3940256099942544/1033173712",
+            "ca-app-pub-3940256099942544/8691691433",
             adRequest,
             object : InterstitialAdLoadCallback() {
                 override fun onAdFailedToLoad(adError: LoadAdError) {
