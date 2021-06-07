@@ -3,22 +3,34 @@ package com.capstone.fresco.ui.main
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
+import android.os.Build
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
+import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
+import com.capstone.fresco.R
 import com.capstone.fresco.databinding.ActivityCameraPlantBinding
-import com.capstone.fresco.ml.Leaf
+import com.google.firebase.FirebaseApp
+import com.google.firebase.ml.modeldownloader.CustomModel
+import com.google.firebase.ml.modeldownloader.CustomModelDownloadConditions
+import com.google.firebase.ml.modeldownloader.DownloadType
+import com.google.firebase.ml.modeldownloader.FirebaseModelDownloader
 import org.tensorflow.lite.DataType
+import org.tensorflow.lite.Interpreter
 import org.tensorflow.lite.support.image.TensorImage
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
 
 class CameraPlantActivity : AppCompatActivity() {
 
     private val binding by lazy { ActivityCameraPlantBinding.inflate(layoutInflater) }
-    private lateinit var bitmap: Bitmap
+    private lateinit var bitmap : Bitmap
+    private var interpreter : Interpreter? = null
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         super.onCreate(savedInstanceState)
@@ -32,36 +44,34 @@ class CameraPlantActivity : AppCompatActivity() {
             }
         }
 
-        // Scan a plant
-        binding.btnScan.setOnClickListener {
-            binding.apply {
-                containerDetail.visibility = View.VISIBLE
-                containerScan.visibility = View.GONE
+        val conditions = CustomModelDownloadConditions.Builder()
+            .requireWifi()
+            .build()
+        FirebaseModelDownloader.getInstance()
+            .getModel("Plant", DownloadType.LOCAL_MODEL_UPDATE_IN_BACKGROUND,
+                conditions
+            )
+            .addOnCompleteListener {
+                it.addOnSuccessListener { model : CustomModel? ->
+                    val modelFile = model?.file
+                    if(modelFile != null){
+                        interpreter = Interpreter(modelFile)
+                    }
+                }
             }
 
-            val labels = "leaf-labels.txt"
-            val input = application.assets.open(labels).bufferedReader().use { it.readText() }
-            val list = input.split("\n")
 
-            // From model
-            val model = Leaf.newInstance(this)
-
-            val inputFeature0 =
-                TensorBuffer.createFixedSize(intArrayOf(1, 100, 100, 3), DataType.FLOAT32)
-            val resizedImage = resizeImage(bitmap, 200, 200, true)
-
-            val image = TensorImage.fromBitmap(resizedImage)
-            inputFeature0.loadBuffer(image.buffer)
-
-            val outputs = model.process(inputFeature0)
-            val outputFeature0 = outputs.outputFeature0AsTensorBuffer
-
-            val data = getString(outputFeature0.floatArray)
-
-            binding.txtTitle.text = list[data]
-
-            model.close()
-
+        // Scan a plant
+        binding.btnScan.setOnClickListener {
+            if (this::bitmap.isInitialized){
+                binding.apply {
+                    containerDetail.visibility = View.VISIBLE
+                    containerScan.visibility = View.GONE
+                }
+                scanLeaf()
+            } else {
+                Toast.makeText(this, "Please input the image first", Toast.LENGTH_LONG).show()
+            }
         }
 
         // Take picture with camera
@@ -80,6 +90,32 @@ class CameraPlantActivity : AppCompatActivity() {
         toolbarSetup()
     }
 
+    private fun scanLeaf() {
+        val input = TensorBuffer.createFixedSize(
+            intArrayOf(1, 100, 100, 3),
+            DataType.FLOAT32
+        )
+        val resizedImage = resizeImage(bitmap, 100, 100, false)
+
+        val tensorImage = TensorImage(DataType.FLOAT32)
+        tensorImage.load(resizedImage)
+        val modelOutput = tensorImage.buffer
+
+        input.loadBuffer(modelOutput)
+
+        interpreter?.run(input.buffer, modelOutput)
+
+        val probabilities = input.floatArray
+
+        val labels = "leaf-labels.txt"
+        val reader = application.assets.open(labels).bufferedReader().use { it.readText() }
+        val list = reader.split("\n")
+        val data = getTitlePlant(probabilities)
+
+        binding.txtTitle.text = list[data]
+
+    }
+
     private fun toolbarSetup() {
         setSupportActionBar(binding.tbPlant)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -91,11 +127,11 @@ class CameraPlantActivity : AppCompatActivity() {
     }
 
     private fun resizeImage(bitmap: Bitmap, width: Int, height: Int, filter: Boolean): Bitmap? =
-        Bitmap.createScaledBitmap(bitmap, width, height, filter)
+            Bitmap.createScaledBitmap(bitmap, width, height, filter)
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        when {
+        when{
             requestCode == REQUEST_TAKE_PICTURE && resultCode == RESULT_OK -> {
                 bitmap = data?.extras?.get("data") as Bitmap
                 binding.imgCapture.setImageBitmap(bitmap)
@@ -109,12 +145,10 @@ class CameraPlantActivity : AppCompatActivity() {
         }
     }
 
-    private fun getString(arr: FloatArray): Int {
-
+    private fun getTitlePlant(arr: FloatArray): Int {
         var index = 0
         var min = 0.0f
-        val range = 0..50
-
+        val range = 0..99
 
         for (i in range) {
             if (arr[i] > min) {
@@ -125,7 +159,7 @@ class CameraPlantActivity : AppCompatActivity() {
         return index
     }
 
-    companion object {
+    companion object{
         const val REQUEST_TAKE_PICTURE = 1
         const val REQUEST_UPLOAD_PICTURE = 2
     }

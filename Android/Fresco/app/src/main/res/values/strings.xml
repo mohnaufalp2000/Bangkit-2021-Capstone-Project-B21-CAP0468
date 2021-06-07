@@ -63,5 +63,7 @@
     <string name="plant">Plant</string>
     <string name="fruit">Fruit</string>
     <string name="not_found">Not Found</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
 
 </resources>

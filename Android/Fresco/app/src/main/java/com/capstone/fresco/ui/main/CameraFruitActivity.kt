@@ -11,10 +11,15 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import com.capstone.fresco.R
 import com.capstone.fresco.databinding.ActivityCameraFruitBinding
+import com.capstone.fresco.ui.main.CameraPlantActivity.Companion.REQUEST_TAKE_PICTURE
+import com.capstone.fresco.ui.main.CameraPlantActivity.Companion.REQUEST_UPLOAD_PICTURE
+import com.google.firebase.FirebaseApp
 import com.google.firebase.ml.modeldownloader.CustomModel
 import com.google.firebase.ml.modeldownloader.CustomModelDownloadConditions
 import com.google.firebase.ml.modeldownloader.DownloadType
@@ -48,86 +53,84 @@ class CameraFruitActivity : AppCompatActivity() {
             }
         }
 
-        binding.btnScan.setOnClickListener {
-
-            binding.apply {
-                containerDetail.visibility = View.VISIBLE
-                containerScan.visibility = View.GONE
-            }
-            val conditions = CustomModelDownloadConditions.Builder()
-                .requireWifi()  // Also possible: .requireCharging() and .requireDeviceIdle()
-                .requireCharging()
-                .requireDeviceIdle()
-                .build()
-            FirebaseModelDownloader.getInstance()
-                .getModel(
-                    "Fruit", DownloadType.LATEST_MODEL,
-                    conditions
-                )
-                .addOnSuccessListener { model: CustomModel? ->
+        val conditions = CustomModelDownloadConditions.Builder()
+            .requireWifi()  // Also possible: .requireCharging() and .requireDeviceIdle()
+            .build()
+        FirebaseModelDownloader.getInstance()
+            .getModel(
+                "Fruit", DownloadType.LOCAL_MODEL_UPDATE_IN_BACKGROUND,
+                conditions
+            )
+            .addOnCompleteListener {
+                it.addOnSuccessListener { model: CustomModel? ->
                     val modelFile = model?.file
                     if (modelFile != null) {
                         interpreter = Interpreter(modelFile)
-                        scanFruit()
                     }
                 }
-        }
-
-
-            // Take picture with camera
-            binding.btnCapture.setOnClickListener {
-                val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                startActivityForResult(intent, REQUEST_TAKE_PICTURE)
             }
 
-            val inputFeature0 =
-                TensorBuffer.createFixedSize(intArrayOf(1, 100, 100, 3), DataType.FLOAT32)
-            val resizedImage = resizeImage(bitmap, 200, 200, true)
-            // Upload image from gallery
-            binding.btnUpload.setOnClickListener {
-                val intent = Intent(Intent.ACTION_PICK)
-                intent.type = "image/"
-                startActivityForResult(intent, REQUEST_UPLOAD_PICTURE)
-            }
-
-            toolbarSetup()
-        }
-
-        private fun scanFruit() {
-            val input = TensorBuffer.createFixedSize(
-                intArrayOf(1, 100, 100, 3),
-                DataType.FLOAT32
-            )
-            val resizedImage = resizeImage(bitmap, 100, 100, false)
-
-            val tensorImage = TensorImage(DataType.FLOAT32)
-            tensorImage.load(resizedImage)
-            val modelOutput = tensorImage.buffer
-
-            input.loadBuffer(modelOutput)
-
-            interpreter?.run(input.buffer, modelOutput)
-
-            val probabilities = input.floatArray
-
-            val data = getTitleFruit(probabilities)
-
-            val labels = "fruit-labels.txt"
-            val reader = application.assets.open(labels).bufferedReader().use { it.readText() }
-            val list = reader.split("\n")
-
-            binding.txtTitle.text = list[data]
-        }
-
-        private fun toolbarSetup() {
-            setSupportActionBar(binding.tbFruit)
-            supportActionBar?.setDisplayHomeAsUpEnabled(true)
-            supportActionBar?.setDisplayShowTitleEnabled(false)
-
-            binding.tbFruit.setNavigationOnClickListener {
-                finish()
+        // Scan a fruit
+        binding.btnScan.setOnClickListener {
+            if (this::bitmap.isInitialized){
+                binding.apply {
+                    containerDetail.visibility = View.VISIBLE
+                    containerScan.visibility = View.GONE
+                }
+                scanFruit()
+            } else {
+                Toast.makeText(this, "Please input the image first", Toast.LENGTH_LONG).show()
             }
         }
+
+
+        // Take picture with camera
+        binding.btnCapture.setOnClickListener {
+            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            startActivityForResult(intent, REQUEST_TAKE_PICTURE)
+        }
+
+        // Upload image from gallery
+        binding.btnUpload.setOnClickListener {
+            val intent = Intent(Intent.ACTION_PICK)
+            intent.type = "image/"
+            startActivityForResult(intent, REQUEST_UPLOAD_PICTURE)
+        }
+
+        toolbarSetup()
+    }
+
+    private fun scanFruit() {
+        val input = TensorBuffer.createFixedSize(
+            intArrayOf(1, 100, 100, 3),
+            DataType.FLOAT32
+        )
+        val resizedImage = resizeImage(bitmap, 100, 100, false)
+
+        val tensorImage = TensorImage(DataType.FLOAT32)
+        tensorImage.load(resizedImage)
+        val modelOutput = tensorImage.buffer
+        input.loadBuffer(modelOutput)
+        interpreter?.run(input.buffer, modelOutput)
+
+        val probabilities = input.floatArray
+        val labels = "fruit-labels.txt"
+        val reader = application.assets.open(labels).bufferedReader().use { it.readText() }
+        val list = reader.split("\n")
+        val data = getTitleFruit(probabilities)
+
+        binding.txtTitle.text = list[data]
+    }
+
+    private fun toolbarSetup() {
+        setSupportActionBar(binding.tbFruit)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+
+        binding.tbFruit.setNavigationOnClickListener {
+            finish()
+        }
+    }
 
     private fun resizeImage(bitmap: Bitmap, width: Int, height: Int, filter: Boolean): Bitmap? =
         Bitmap.createScaledBitmap(bitmap, width, height, filter)
@@ -148,50 +151,24 @@ class CameraFruitActivity : AppCompatActivity() {
         }
     }
 
-    private fun getString(arr: FloatArray): Int {
-
-        private fun resizeImage(bitmap: Bitmap, width: Int, height: Int, filter: Boolean): Bitmap? =
-            Bitmap.createScaledBitmap(bitmap, width, height, filter)
-
-        override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-            super.onActivityResult(requestCode, resultCode, data)
-            when {
-                requestCode == REQUEST_TAKE_PICTURE && resultCode == RESULT_OK -> {
-                    bitmap = data?.extras?.get("data") as Bitmap
-                    binding.imgCapture.setImageBitmap(bitmap)
-                }
-                requestCode == REQUEST_UPLOAD_PICTURE && resultCode == RESULT_OK -> {
-                    binding.imgCapture.setImageURI(data?.data)
-                    val uri: Uri? = data?.data
-
-                    bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, uri)
-                }
-            }
-        }
-
-        private fun getTitleFruit(arr: FloatArray): Int {
-            var index = 0
-            var min = 0.0f
-            val range = 0..130
-
-
+    private fun getTitleFruit(arr: FloatArray): Int {
+        var index = 0
+        var min = 0.0f
+        val range = 0..129
 
         for (i in range) {
             if (arr[i] > min) {
                 index = i
                 min = arr[i]
-            for (i in range) {
-                if (arr[i] > min) {
-                    index = i
-                    min = arr[i]
-                }
             }
-            return index
         }
 
-        companion object {
-            const val REQUEST_TAKE_PICTURE = 1
-            const val REQUEST_UPLOAD_PICTURE = 2
-        }
-
+        return index
     }
+
+    companion object {
+        const val REQUEST_TAKE_PICTURE = 1
+        const val REQUEST_UPLOAD_PICTURE = 2
+    }
+
+}

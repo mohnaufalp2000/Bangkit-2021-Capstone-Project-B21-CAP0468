@@ -127,7 +127,7 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_title"
-            android:layout_width="195dp"
+            android:layout_width="wrap_content"
             android:layout_height="45dp"
             android:layout_marginStart="24dp"
             android:layout_marginTop="32dp"
@@ -137,15 +137,17 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent">
 
                 <ImageView
                     android:id="@+id/img_title"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:background="@drawable/btn_login"
-                    android:contentDescription="@string/button_login" />
+                    android:contentDescription="@string/button_login"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
                     android:id="@+id/txt_title"
@@ -155,6 +157,8 @@
                     android:textAllCaps="true"
                     android:textColor="@color/white"
                     android:textSize="14sp"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
                     app:layout_constraintBottom_toBottomOf="@+id/img_title"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

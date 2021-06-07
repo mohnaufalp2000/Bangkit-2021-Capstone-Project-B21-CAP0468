@@ -15,9 +15,6 @@ android {
         mlModelBinding true
     }
 
-    aaptOptions {
-        noCompress "tflite", "lite"
-    }
 
     defaultConfig {
         applicationId "com.capstone.fresco"
@@ -139,8 +136,10 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:28.0.1')
     implementation 'com.google.firebase:firebase-ml-modeldownloader-ktx'
 
-}
-
     //Trial
     implementation 'io.trialy.library:trialy:1.0.9'
+
+}
+
+
 
