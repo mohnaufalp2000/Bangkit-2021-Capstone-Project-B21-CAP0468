@@ -141,4 +141,6 @@ dependencies {
 
 }
 
+    //Trial
+    implementation 'io.trialy.library:trialy:1.0.9'
 
