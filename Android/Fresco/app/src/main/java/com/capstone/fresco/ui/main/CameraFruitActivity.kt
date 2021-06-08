@@ -2,9 +2,11 @@
 
 package com.capstone.fresco.ui.main
 
+import android.app.Dialog
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -15,34 +17,24 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.widget.AppCompatButton
 import com.capstone.fresco.R
 import com.capstone.fresco.core.model.FruitResponse
 import com.capstone.fresco.core.network.ConfigNetwork
 import com.capstone.fresco.databinding.ActivityCameraFruitBinding
 import com.capstone.fresco.ml.Freshrotten
-import com.capstone.fresco.ui.main.CameraPlantActivity.Companion.REQUEST_TAKE_PICTURE
-import com.capstone.fresco.ui.main.CameraPlantActivity.Companion.REQUEST_UPLOAD_PICTURE
-import com.google.firebase.FirebaseApp
-import com.google.firebase.ml.modeldownloader.CustomModel
-import com.google.firebase.ml.modeldownloader.CustomModelDownloadConditions
-import com.google.firebase.ml.modeldownloader.DownloadType
-import com.google.firebase.ml.modeldownloader.FirebaseModelDownloader
 import org.tensorflow.lite.DataType
-import org.tensorflow.lite.Interpreter
 import org.tensorflow.lite.support.image.TensorImage
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.nio.ByteBuffer
-import java.nio.ByteOrder
-import java.nio.FloatBuffer
-
 
 class CameraFruitActivity : AppCompatActivity() {
 
     private val binding by lazy { ActivityCameraFruitBinding.inflate(layoutInflater) }
     private lateinit var bitmap: Bitmap
+    private lateinit var dialog : Dialog
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -87,6 +79,7 @@ class CameraFruitActivity : AppCompatActivity() {
         }
 
         toolbarSetup()
+        dialog = Dialog(this)
     }
 
     private fun scanFruit() {
@@ -172,6 +165,19 @@ class CameraFruitActivity : AppCompatActivity() {
                     }
                 }
             name.subSequence(0, 6) == "Rotten" -> {
+                binding.apply {
+                    btnScanAgain.visibility = View.GONE
+                    dataFruitContent.visibility = View.GONE
+                    dataRottenCauses.visibility = View.VISIBLE
+                    dialog.setContentView(R.layout.rotten_fruit_dialog)
+                    dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+                    val btnRotten = dialog.findViewById<AppCompatButton>(R.id.btn_see_rotten)
+                    btnRotten.setOnClickListener {
+                        dialog.dismiss()
+                    }
+                }
+                dialog.show()
             }
         }
     }

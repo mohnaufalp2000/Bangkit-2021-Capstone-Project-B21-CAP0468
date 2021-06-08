@@ -74,5 +74,13 @@
     <string name="fat">fat</string>
     <string name="calories">calories</string>
     <string name="sugar">sugar</string>
+    <string name="oops_this_fruit_is_rotten">Oops! This fruit is rotten</string>
+    <string name="tap_see_button_to_see_the_dangerous_of_consuming_rotten_fruit">Tap see button to see the dangerous of consuming rotten fruit</string>
+    <string name="see">See</string>
+    <string name="dangerous_of_eating_rotten_fruit">Dangerous of eating rotten fruit :</string>
+    <string name="_1_cause_allergic_reactions">1. Cause allergic reactions</string>
+    <string name="_2_cause_respiratory_problems">2. Cause respiratory problems</string>
+    <string name="_3_can_cause_nausea">3. Can cause nausea</string>
+    <string name="_4_increase_the_risk_of_cancer">4. Increase the risk of cancer</string>
 
 </resources>
