@@ -29,7 +29,6 @@ class CameraPlantActivity : AppCompatActivity() {
 
     private val binding by lazy { ActivityCameraPlantBinding.inflate(layoutInflater) }
     private lateinit var bitmap : Bitmap
-    private var interpreter : Interpreter? = null
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -132,10 +132,6 @@ dependencies {
     implementation 'org.tensorflow:tensorflow-lite-metadata:0.1.0'
     implementation 'org.tensorflow:tensorflow-lite:2.4.0'
 
-    // Firebase ML
-    implementation platform('com.google.firebase:firebase-bom:26.2.0')
-    implementation 'com.google.firebase:firebase-ml-modeldownloader-ktx'
-
     //Trial
     implementation 'io.trialy.library:trialy:1.0.9'
 

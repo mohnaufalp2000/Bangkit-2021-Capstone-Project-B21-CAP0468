@@ -43,9 +43,6 @@ class CameraFruitActivity : AppCompatActivity() {
 
     private val binding by lazy { ActivityCameraFruitBinding.inflate(layoutInflater) }
     private lateinit var bitmap: Bitmap
-    private var interpreter: Interpreter? = null
-    private var localModel: Freshrotten? = null
-    private var probabilities: FloatArray? = null
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
