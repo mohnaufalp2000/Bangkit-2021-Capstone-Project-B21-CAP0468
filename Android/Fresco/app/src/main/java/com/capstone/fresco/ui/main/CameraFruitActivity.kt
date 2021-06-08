@@ -174,7 +174,6 @@ class CameraFruitActivity : AppCompatActivity() {
                         })
                     }
                 }
-
             name.subSequence(0, 6) == "Rotten" -> {
             }
         }

@@ -14,6 +14,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
 import com.capstone.fresco.R
 import com.capstone.fresco.databinding.ActivityCameraPlantBinding
+import com.capstone.fresco.ml.Leaf
 import com.google.firebase.FirebaseApp
 import com.google.firebase.ml.modeldownloader.CustomModel
 import com.google.firebase.ml.modeldownloader.CustomModelDownloadConditions
@@ -43,23 +44,6 @@ class CameraPlantActivity : AppCompatActivity() {
                 containerScan.visibility = View.VISIBLE
             }
         }
-
-        val conditions = CustomModelDownloadConditions.Builder()
-            .requireWifi()
-            .build()
-        FirebaseModelDownloader.getInstance()
-            .getModel("Plant", DownloadType.LOCAL_MODEL,
-                conditions
-            )
-            .addOnCompleteListener {
-                it.addOnSuccessListener { model : CustomModel? ->
-                    val modelFile = model?.file
-                    if(modelFile != null){
-                        interpreter = Interpreter(modelFile)
-                    }
-                }
-            }
-
 
         // Scan a plant
         binding.btnScan.setOnClickListener {
@@ -91,6 +75,7 @@ class CameraPlantActivity : AppCompatActivity() {
     }
 
     private fun scanLeaf() {
+        val model = Leaf.newInstance(this)
         val input = TensorBuffer.createFixedSize(
             intArrayOf(1, 100, 100, 3),
             DataType.FLOAT32
@@ -99,21 +84,20 @@ class CameraPlantActivity : AppCompatActivity() {
 
         val tensorImage = TensorImage(DataType.FLOAT32)
         tensorImage.load(resizedImage)
-        val modelOutput = tensorImage.buffer
 
+        val modelOutput = tensorImage.buffer
         input.loadBuffer(modelOutput)
 
-        interpreter?.run(input.buffer, modelOutput)
+        val outputs = model.process(input)
+        val outputFeature0 = outputs.outputFeature0AsTensorBuffer.floatArray
 
-        val probabilities = input.floatArray
+        val data = getTitlePlant(outputFeature0)
 
         val labels = "leaf-labels.txt"
         val reader = application.assets.open(labels).bufferedReader().use { it.readText() }
         val list = reader.split("\n")
-        val data = getTitlePlant(probabilities)
 
         binding.txtTitle.text = list[data]
-
     }
 
     private fun toolbarSetup() {
