@@ -48,7 +48,7 @@ class CameraPlantActivity : AppCompatActivity() {
             .requireWifi()
             .build()
         FirebaseModelDownloader.getInstance()
-            .getModel("Plant", DownloadType.LOCAL_MODEL_UPDATE_IN_BACKGROUND,
+            .getModel("Plant", DownloadType.LOCAL_MODEL,
                 conditions
             )
             .addOnCompleteListener {

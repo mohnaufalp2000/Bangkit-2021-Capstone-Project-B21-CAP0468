@@ -65,5 +65,14 @@
     <string name="not_found">Not Found</string>
     <string name="no">No</string>
     <string name="yes">Yes</string>
+    <string name="family">Family</string>
+    <string name="genus">Genus</string>
+    <string name="order">Order</string>
+    <string name="nutritions">Nutritions</string>
+    <string name="carbohydrates">carbohydrates</string>
+    <string name="protein">protein</string>
+    <string name="fat">fat</string>
+    <string name="calories">calories</string>
+    <string name="sugar">sugar</string>
 
 </resources>
