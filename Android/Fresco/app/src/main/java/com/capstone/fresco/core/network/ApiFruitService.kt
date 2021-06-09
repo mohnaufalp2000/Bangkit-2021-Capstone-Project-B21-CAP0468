@@ -7,5 +7,5 @@ import retrofit2.http.Path
 
 interface ApiFruitService {
     @GET("api/fruit/{name}")
-    fun getAll(@Path("name") name : String) : Call<FruitResponse>
+    fun getAll(@Path("name") name: String): Call<FruitResponse>
 }

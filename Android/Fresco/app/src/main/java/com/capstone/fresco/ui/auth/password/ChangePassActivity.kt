@@ -38,12 +38,10 @@ class ChangePassActivity : AppCompatActivity() {
     }
 
     private fun onChangePass() {
-        //Get data from input user
         val getNewPassword = binding.edtNewPass.text.toString().trim { it <= ' ' }
         val getConfirmPassword =
             binding.edtConfirmPass.text.toString().trim { it <= ' ' }
 
-        //Check is empty email or password
         if (getNewPassword.isEmpty() || getConfirmPassword.isEmpty()) {
             binding.apply {
                 edtNewPass.error = "Password can't be empty"
@@ -53,7 +51,6 @@ class ChangePassActivity : AppCompatActivity() {
             }
         }
 
-        //Check long char of password
         if (getNewPassword.length < 8) {
             binding.apply {
                 edtNewPass.error = "Password lenght minimal 8 char"
@@ -61,7 +58,6 @@ class ChangePassActivity : AppCompatActivity() {
             }
         }
 
-        //Check if password and confirm password not same
         if (getNewPassword != getConfirmPassword) {
             binding.apply {
                 edtNewPass.error = "Password and Confirm Password is different"
@@ -71,9 +67,8 @@ class ChangePassActivity : AppCompatActivity() {
             }
         }
 
-        //update password
         user?.updatePassword(getNewPassword)
-            ?.addOnCompleteListener { task -> //check status
+            ?.addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Toast.makeText(
                         this,

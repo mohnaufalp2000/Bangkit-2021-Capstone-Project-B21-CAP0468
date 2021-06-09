@@ -31,9 +31,7 @@ class LoginActivity : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
 
-        ///Check Posisi User
         listener = AuthStateListener { firebaseAuth ->
-            //Check if user already login / still not logout
             val user = firebaseAuth.currentUser
             if (user != null) {
                 startActivity(Intent(this@LoginActivity, MainActivity::class.java))
@@ -55,27 +53,25 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
-    //Add Listener
     override fun onStart() {
         super.onStart()
         auth.addAuthStateListener(listener)
     }
 
-    //Remove Listener
     override fun onStop() {
         super.onStop()
         auth.removeAuthStateListener(listener)
     }
 
-    //Autentication user with email and password
     private fun loginUserAccount() {
-        //Get data from input user
         val getEmail = binding.edtEmail.text.toString().trim()
         val getPassword = binding.edtPassword.text.toString().trim()
 
         auth.signInWithEmailAndPassword(getEmail, getPassword)
-            .addOnCompleteListener { task -> //Check login success
+            .addOnCompleteListener { task ->
+                binding.progressBar.visibility = View.VISIBLE
                 if (task.isSuccessful) {
+                    binding.progressBar.visibility = View.GONE
                     Toast.makeText(
                         this@LoginActivity,
                         "Login Success",
@@ -95,7 +91,6 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
 
-        //Check is empty email or password
         if (getEmail.isEmpty() || getPassword.isEmpty()) {
             binding.apply {
                 edtEmail.error = "Email can't be empty"
@@ -103,11 +98,8 @@ class LoginActivity : AppCompatActivity() {
                 edtPassword.error = "Password can't be empty"
                 edtPassword.requestFocus()
             }
-        } else {
-            binding.progressBar.visibility = View.VISIBLE
         }
 
-        //Check email is valid
         if (!Patterns.EMAIL_ADDRESS.matcher(getEmail).matches()) {
             binding.apply {
                 edtEmail.error = "Email not valid"

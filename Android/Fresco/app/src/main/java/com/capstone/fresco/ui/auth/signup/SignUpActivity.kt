@@ -43,16 +43,13 @@ class SignUpActivity : AppCompatActivity() {
         }
     }
 
-    //Check and get data from input user
     private fun checkDataUser() {
-        //Get data
         val getUsername = binding.edtUsername.text.toString().trim()
         val getEmail = binding.edtEmail.text.toString().trim()
         val getPassword = binding.edtPassword.text.toString().trim()
         val getConfirmPassword = binding.edtConfirmPass.text.toString().trim()
         val getPhoneNumber = binding.edtPhone.text.toString().trim()
 
-        //Check if is empty email and password
         if (getUsername.isEmpty() || getEmail.isEmpty() || getPassword.isEmpty() || getConfirmPassword.isEmpty() || getPhoneNumber.isEmpty()) {
             binding.apply {
                 edtUsername.error = "Username can't be empty"
@@ -68,7 +65,6 @@ class SignUpActivity : AppCompatActivity() {
             }
         }
 
-        //Check email is valid
         if (!Patterns.EMAIL_ADDRESS.matcher(getEmail).matches()) {
             binding.apply {
                 edtEmail.error = "Email not valid"
@@ -76,7 +72,6 @@ class SignUpActivity : AppCompatActivity() {
             }
         }
 
-        //Check long char of password
         if (getPassword.length < 8) {
             binding.apply {
                 edtPassword.error = "Password lenght minimal 8 char"
@@ -84,7 +79,6 @@ class SignUpActivity : AppCompatActivity() {
             }
         }
 
-        //Check if password and confirm password not same
         if (getPassword != getConfirmPassword) {
             binding.apply {
                 edtPassword.error = "Password and Confirm Password is different"
@@ -94,7 +88,6 @@ class SignUpActivity : AppCompatActivity() {
             }
         }
 
-        //Check phone number is valid
         if (!Patterns.PHONE.matcher(getPhoneNumber).matches()) {
             binding.apply {
                 edtPhone.error = "Phone number not valid"
@@ -105,7 +98,6 @@ class SignUpActivity : AppCompatActivity() {
         createUserAccount(getEmail, getPassword)
     }
 
-    //Sign Up
     private fun createUserAccount(getEmail: String, getPassword: String) {
         val getUsername = binding.edtUsername.text.toString().trim()
         val getPhoneNumber = binding.edtPhone.text.toString().trim()
@@ -125,19 +117,6 @@ class SignUpActivity : AppCompatActivity() {
                         userMap["username"] = getUsername
                         userMap["email"] = getEmail
                         userMap["phone"] = getPhoneNumber
-                    }
-                    docRef.set(userMap).addOnSuccessListener {
-                        Toast.makeText(
-                            this@SignUpActivity,
-                            "Map Success $userId",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }.addOnFailureListener {
-                        Toast.makeText(
-                            this@SignUpActivity,
-                            "Map Failed $userId",
-                            Toast.LENGTH_SHORT
-                        ).show()
                     }
                     Intent(
                         this@SignUpActivity,

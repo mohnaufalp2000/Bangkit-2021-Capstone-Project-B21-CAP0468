@@ -49,16 +49,15 @@ class CameraFruitActivity : AppCompatActivity() {
 
     private val binding by lazy { ActivityCameraFruitBinding.inflate(layoutInflater) }
     private lateinit var bitmap: Bitmap
-    private lateinit var dialog : Dialog
-    private lateinit var auth : FirebaseAuth
-    private lateinit var db : FirebaseFirestore
-    private lateinit var imageUri : Uri
+    private lateinit var dialog: Dialog
+    private lateinit var auth: FirebaseAuth
+    private lateinit var db: FirebaseFirestore
     private lateinit var authListener: FirebaseAuth.AuthStateListener
     private lateinit var trialy: Trialy
     private var countDownTimer: CountDownTimer? = null
     private var ads: InterstitialAd? = null
     private var adIsLoading: Boolean = false
-    private var ADS_DURATION = 5000L
+    private var adsDuration = 5000L
     private var adIsInProgress = false
     private var timer = 0L
 
@@ -72,7 +71,6 @@ class CameraFruitActivity : AppCompatActivity() {
 
         trialy = Trialy(this, MainActivity.TRIALY_APP_KEY)
 
-        // Scan again after scan a fruit
         binding.btnScanAgain.setOnClickListener {
             binding.apply {
                 containerDetail.visibility = View.GONE
@@ -81,9 +79,8 @@ class CameraFruitActivity : AppCompatActivity() {
             }
         }
 
-        // Scan a fruit
         binding.btnScan.setOnClickListener {
-            if (this::bitmap.isInitialized){
+            if (this::bitmap.isInitialized) {
                 binding.apply {
                     containerDetail.visibility = View.VISIBLE
                     containerScan.visibility = View.GONE
@@ -96,23 +93,18 @@ class CameraFruitActivity : AppCompatActivity() {
             }
         }
 
-
-        // Take picture with camera
         binding.btnCapture.setOnClickListener {
             val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             startActivityForResult(intent, REQUEST_TAKE_PICTURE)
         }
 
-        // Upload image from gallery
         binding.btnUpload.setOnClickListener {
             val intent = Intent(Intent.ACTION_PICK)
             intent.type = "image/"
             startActivityForResult(intent, REQUEST_UPLOAD_PICTURE)
         }
 
-        ///Check Posisi User
         authListener = FirebaseAuth.AuthStateListener { firebaseAuth ->
-            //Check if user already login / still not logout
             val user = firebaseAuth.currentUser
             if (user != null) {
                 trialy.startTrial(MainActivity.TRIALY_SKU, trialCallback)
@@ -168,66 +160,66 @@ class CameraFruitActivity : AppCompatActivity() {
     }
 
     private fun getDetailFruit(name: String) {
-        when{
+        when {
             name.subSequence(0, 5) == "Fresh" -> {
-                    if (name.subSequence(6, 12) == "Apples"){
-                        val getName = name.subSequence(6, 11)
-                        ConfigNetwork.getData().getAll(getName.toString()).enqueue(object :
-                            Callback<FruitResponse> {
-                            override fun onResponse(
-                                call: Call<FruitResponse>,
-                                response: Response<FruitResponse>
-                            ) {
-                                binding.dataFruitContent.visibility = View.VISIBLE
-                                val body = response.body()
-                                val nutrition = response.body()?.nutritions
-                                binding.apply {
-                                    pbFruit.visibility = View.GONE
-                                    dataFruitContent.visibility = View.VISIBLE
-                                    txtGenusFruit.text = body?.genus
-                                    txtFamilyFruit.text = body?.family
-                                    txtOrderFruit.text = body?.order
-                                    txtCarbo.text = nutrition?.carbohydrates.toString()
-                                    txtProtein.text = nutrition?.protein.toString()
-                                    txtFat.text = nutrition?.fat.toString()
-                                    txtCalories.text = nutrition?.calories.toString()
-                                    txtSugar.text = nutrition?.calories.toString()
-                                }
+                if (name.subSequence(6, 12) == "Apples") {
+                    val getName = name.subSequence(6, 11)
+                    ConfigNetwork.getData().getAll(getName.toString()).enqueue(object :
+                        Callback<FruitResponse> {
+                        override fun onResponse(
+                            call: Call<FruitResponse>,
+                            response: Response<FruitResponse>
+                        ) {
+                            binding.dataFruitContent.visibility = View.VISIBLE
+                            val body = response.body()
+                            val nutrition = response.body()?.nutritions
+                            binding.apply {
+                                pbFruit.visibility = View.GONE
+                                dataFruitContent.visibility = View.VISIBLE
+                                txtGenusFruit.text = body?.genus
+                                txtFamilyFruit.text = body?.family
+                                txtOrderFruit.text = body?.order
+                                txtCarbo.text = nutrition?.carbohydrates.toString()
+                                txtProtein.text = nutrition?.protein.toString()
+                                txtFat.text = nutrition?.fat.toString()
+                                txtCalories.text = nutrition?.calories.toString()
+                                txtSugar.text = nutrition?.calories.toString()
                             }
+                        }
 
-                            override fun onFailure(call: Call<FruitResponse>, t: Throwable) {
+                        override fun onFailure(call: Call<FruitResponse>, t: Throwable) {
+                        }
+                    })
+                } else {
+                    val getName = name.subSequence(6, 12)
+                    ConfigNetwork.getData().getAll(getName.toString()).enqueue(object :
+                        Callback<FruitResponse> {
+                        override fun onResponse(
+                            call: Call<FruitResponse>,
+                            response: Response<FruitResponse>
+                        ) {
+                            binding.dataFruitContent.visibility = View.VISIBLE
+                            val body = response.body()
+                            val nutrition = response.body()?.nutritions
+                            binding.apply {
+                                pbFruit.visibility = View.GONE
+                                dataFruitContent.visibility = View.VISIBLE
+                                txtGenusFruit.text = body?.genus
+                                txtFamilyFruit.text = body?.family
+                                txtOrderFruit.text = body?.order
+                                txtCarbo.text = nutrition?.carbohydrates.toString()
+                                txtProtein.text = nutrition?.protein.toString()
+                                txtFat.text = nutrition?.fat.toString()
+                                txtCalories.text = nutrition?.calories.toString()
+                                txtSugar.text = nutrition?.calories.toString()
                             }
-                        })
-                    } else {
-                        val getName = name.subSequence(6, 12)
-                        ConfigNetwork.getData().getAll(getName.toString()).enqueue(object :
-                            Callback<FruitResponse> {
-                            override fun onResponse(
-                                call: Call<FruitResponse>,
-                                response: Response<FruitResponse>
-                            ) {
-                                binding.dataFruitContent.visibility = View.VISIBLE
-                                val body = response.body()
-                                val nutrition = response.body()?.nutritions
-                                binding.apply {
-                                    pbFruit.visibility = View.GONE
-                                    dataFruitContent.visibility = View.VISIBLE
-                                    txtGenusFruit.text = body?.genus
-                                    txtFamilyFruit.text = body?.family
-                                    txtOrderFruit.text = body?.order
-                                    txtCarbo.text = nutrition?.carbohydrates.toString()
-                                    txtProtein.text = nutrition?.protein.toString()
-                                    txtFat.text = nutrition?.fat.toString()
-                                    txtCalories.text = nutrition?.calories.toString()
-                                    txtSugar.text = nutrition?.calories.toString()
-                                }
-                            }
+                        }
 
-                            override fun onFailure(call: Call<FruitResponse>, t: Throwable) {
-                            }
-                        })
-                    }
+                        override fun onFailure(call: Call<FruitResponse>, t: Throwable) {
+                        }
+                    })
                 }
+            }
             name.subSequence(0, 6) == "Rotten" -> {
                 binding.apply {
                     pbFruit.visibility = View.GONE
@@ -308,7 +300,7 @@ class CameraFruitActivity : AppCompatActivity() {
             adIsLoading = true
             loadAd()
         }
-        resumeAds(ADS_DURATION)
+        resumeAds(adsDuration)
     }
 
     private fun resumeAds(millisec: Long) {

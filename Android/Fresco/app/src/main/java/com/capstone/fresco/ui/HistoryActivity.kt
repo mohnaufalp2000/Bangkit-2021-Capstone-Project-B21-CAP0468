@@ -12,9 +12,9 @@ import java.util.*
 
 class HistoryActivity : AppCompatActivity() {
 
-    private val binding by lazy {ActivityHistoryBinding.inflate(layoutInflater)}
-    private lateinit var db : FirebaseFirestore
-    private var list : ArrayList<History> = arrayListOf()
+    private val binding by lazy { ActivityHistoryBinding.inflate(layoutInflater) }
+    private lateinit var db: FirebaseFirestore
+    private var list: ArrayList<History> = arrayListOf()
     private lateinit var historyAdapter: HistoryAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,19 +40,19 @@ class HistoryActivity : AppCompatActivity() {
 
     private fun changeListener() {
         db.collection("scanhistory").orderBy("time", Query.Direction.ASCENDING)
-            .addSnapshotListener(object : EventListener<QuerySnapshot>{
+            .addSnapshotListener(object : EventListener<QuerySnapshot> {
                 override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
-                    if (error != null){
+                    if (error != null) {
                         Log.e("Error", error.message.toString())
                         return
                     }
 
-                    for (dc: DocumentChange in value?.documentChanges!!){
-                        if (dc.type == DocumentChange.Type.ADDED){
+                    for (dc: DocumentChange in value?.documentChanges!!) {
+                        if (dc.type == DocumentChange.Type.ADDED) {
                             list.add(dc.document.toObject(History::class.java))
                         }
                     }
-                historyAdapter.notifyDataSetChanged()
+                    historyAdapter.notifyDataSetChanged()
                 }
             })
     }
