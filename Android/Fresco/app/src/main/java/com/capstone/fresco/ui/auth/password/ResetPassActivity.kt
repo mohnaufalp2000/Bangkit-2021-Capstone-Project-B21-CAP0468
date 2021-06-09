@@ -52,9 +52,14 @@ class ResetPassActivity : AppCompatActivity() {
                         Toast.LENGTH_SHORT
                     )
                         .show()
-                    startActivity(Intent(this@ResetPassActivity, LoginActivity::class.java).also {
-                        it.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    })
+                    startActivity(
+                        Intent(
+                            this@ResetPassActivity,
+                            LoginActivity::class.java
+                        ).also { intent ->
+                            intent.flags =
+                                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        })
                 } else {
                     Toast.makeText(
                         this,

@@ -40,10 +40,7 @@ import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.sql.Timestamp
 import java.text.SimpleDateFormat
-import java.time.Instant.now
-import java.time.LocalDate.now
 import java.util.*
 import kotlin.collections.HashMap
 
