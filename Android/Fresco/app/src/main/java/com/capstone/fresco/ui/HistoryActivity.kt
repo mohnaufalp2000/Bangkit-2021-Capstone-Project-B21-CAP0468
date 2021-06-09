@@ -1,13 +1,14 @@
 package com.capstone.fresco.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.capstone.fresco.core.adapter.HistoryAdapter
 import com.capstone.fresco.core.model.History
 import com.capstone.fresco.databinding.ActivityHistoryBinding
 import com.google.firebase.firestore.*
+import java.util.*
 
 class HistoryActivity : AppCompatActivity() {
 
@@ -63,6 +64,5 @@ class HistoryActivity : AppCompatActivity() {
             layoutManager = LinearLayoutManager(this@HistoryActivity)
             adapter = historyAdapter
         }
-
     }
 }
