@@ -1,7 +1,7 @@
 ## Bangkit 2021 Capstone Project (Fresco : Fruit and Plant Recognition) by B21-CAP0468
 
 We created a project named "Fresco" to fulfill a graduation requirements of Bangkit Academy 2021. Our team consist of android team, cloud engineer, and machine learning team.
-This project has the from the application where it can recognize the name of fruit and distinguish between fresh fruit and rotten fruit.
+This project has the from the application where it can recognize the name of fruit and plant, and also distinguish between fresh fruit and rotten fruit.
 
 <table><tr>
 <td> <img src="https://user-images.githubusercontent.com/49554106/121322897-9086bc00-c939-11eb-9b51-ae1080cf73d7.jpg" width="320" height="640"> </td>
@@ -38,10 +38,11 @@ ___
 
 We started from designing a UI/UX design using figma. After that, we created a new project in Android Studio with project name "Fresco". We included many libraries in our project to support our app like firebase library, google ads library, retrofit library, etc. After that, we started to do a layouting with source code from our UI/UX Design Apps. After that, we started to make a logic code for our app which it will make the app run properly. Start from creating an intent for moving an activity to another activity. Next, we created an authorization. Authorization is useful login and sign up feature in our app. We work together with cloud engineer in our team to make an authorization.
   
-Last but not least, we started to make image recognition. We made an feature which it can make phone capture an image with camera and pick an image from galery, and save it to the layout. After that we import a custom model tensorflow lite from the machine learning team. We also make a feature for saving the scanned image to the firestore wich is handled by cloud engineer.  
+Last but not least, we started to make image recognition. We made an feature which it can make phone capture an image with camera and pick an image from galery, and save it to the layout. After that we import a custom model tensorflow lite from the machine learning team. We also make a feature for saving the scanned image to the firestore which is handled by cloud engineer.  
 
 #### Cloud Computing
 
+Manage GCP billing accounts, top-up the credit that has been given. After that we assign android team account manage roles for them on GCP and firebase. Create a database in cloud firestore and buckets on cloud storage
 
 #### Machine Learning
 
@@ -52,3 +53,9 @@ For leaf classification model we used the dataset from UCI (https://archive.ics.
 
 ### Author
 ___
+
+1. <a href="https://github.com/mohnaufalp2000" target="_blank">Mohammad Naufal Pratama A2962680</a>
+2. <a href="https://github.com/MAbyanN" target="_blank">Muhammad Abyan Naufal C3122791</a>
+3. <a href="https://github.com/Astudent35" target="_blank">Muhammad Haider Aslam</a>
+4. <a href="https://github.com/paskalhensa" target="_blank">Paskalis Henry Satritama</a>
+5. <a href="https://github.com/dedyramadhan" target="_blank">Dedy Ramadhan</a>
