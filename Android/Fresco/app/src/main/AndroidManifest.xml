@@ -20,7 +20,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Fresco">
 
-        <activity android:name=".ui.ads.AdsActivity" />
         <activity android:name=".ui.ProfileActivity" />
 
         <activity android:name=".ui.auth.password.ResetPassActivity" />

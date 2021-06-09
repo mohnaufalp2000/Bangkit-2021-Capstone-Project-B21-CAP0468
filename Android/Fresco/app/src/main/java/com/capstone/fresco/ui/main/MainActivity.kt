@@ -97,10 +97,6 @@ class MainActivity : AppCompatActivity() {
 
         MobileAds.initialize(this) {}
 
-        binding.btnAds.setOnClickListener {
-            showAds()
-        }
-
     }
 
     private fun showAds() {
@@ -199,12 +195,12 @@ class MainActivity : AppCompatActivity() {
         auth.removeAuthStateListener(authListener)
     }
 
-    public override fun onPause() {
+    override fun onPause() {
         countDownTimer?.cancel()
         super.onPause()
     }
 
-    public override fun onResume() {
+    override fun onResume() {
         super.onResume()
         if (adIsInProgress) {
             resumeAds(timer)
@@ -212,7 +208,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private val trialCallback = TrialyCallback { status, timeRemaining, _ ->
-        Log.i(TAG, "onResult status: $status; time remaining: $timeRemaining")
+        Log.i(TAG, "status: $status; time remaining: $timeRemaining")
         when (status) {
             Constants.STATUS_TRIAL_JUST_STARTED -> {
                 activatePremiumFeatures()
@@ -244,7 +240,7 @@ class MainActivity : AppCompatActivity() {
         }
         Snackbar.make(
             findViewById(android.R.id.content),
-            "onCheckResult: " + Trialy.getStatusMessage(status),
+            "" + Trialy.getStatusMessage(status),
             Snackbar.LENGTH_LONG
         )
             .setAction("OK", null).show()
@@ -281,11 +277,11 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         private const val TAG = "MainActivity"
-        private const val TRIALY_APP_KEY =
+        const val TRIALY_APP_KEY =
             "7KUNT46VJD4JHFDDYN0"
-        private const val TRIALY_SKU =
+        const val TRIALY_SKU =
             "default"
-        private const val AD_UNIT_ID =
-            "ca-app-pub-3940256099942544/8691691433" //TEST MODE, must be replace with ca-app-pub-7074988547859559/7690066729
+        const val AD_UNIT_ID =
+            "ca-app-pub-7074988547859559/7690066729" //TEST MODE ca-app-pub-3940256099942544/8691691433, must be replace with ca-app-pub-7074988547859559/7690066729
     }
 }
