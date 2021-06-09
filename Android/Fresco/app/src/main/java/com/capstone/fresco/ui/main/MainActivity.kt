@@ -1,8 +1,10 @@
 package com.capstone.fresco.ui.main
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.os.Handler
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -15,6 +17,7 @@ import com.capstone.fresco.ui.auth.login.LoginActivity
 import com.google.android.gms.ads.*
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuth.AuthStateListener
@@ -35,6 +38,7 @@ class MainActivity : AppCompatActivity() {
     private var ADS_DURATION = 5000L
     private var adIsInProgress = false
     private var timer = 0L
+    private var doubleTapExit = false
 
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
 
@@ -97,7 +101,18 @@ class MainActivity : AppCompatActivity() {
 
         MobileAds.initialize(this) {}
 
+    override fun onBackPressed() {
+        if (doubleTapExit){
+            super.onBackPressed()
+            return
+        }
+
+        doubleTapExit = true
+        Toast.makeText(this, "Please tap back button again to exit", Toast.LENGTH_LONG).show()
+
+        Handler(mainLooper).postDelayed( Runnable { doubleTapExit = false }, 2000)
     }
+
 
     private fun showAds() {
         if (ads != null) {

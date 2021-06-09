@@ -3,8 +3,11 @@
 package com.capstone.fresco.ui.main
 
 import android.R
+import android.app.Dialog
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -16,6 +19,10 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.widget.AppCompatButton
+import com.capstone.fresco.R
+import com.capstone.fresco.core.model.FruitResponse
+import com.capstone.fresco.core.network.ConfigNetwork
 import com.capstone.fresco.databinding.ActivityCameraFruitBinding
 import com.google.android.gms.ads.*
 import com.google.android.gms.ads.interstitial.InterstitialAd
@@ -29,12 +36,14 @@ import com.google.firebase.ml.modeldownloader.FirebaseModelDownloader
 import io.trialy.library.Constants
 import io.trialy.library.Trialy
 import io.trialy.library.TrialyCallback
+import com.capstone.fresco.ml.Freshrotten
 import org.tensorflow.lite.DataType
-import org.tensorflow.lite.Interpreter
 import org.tensorflow.lite.support.image.TensorImage
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
 import java.util.*
-
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class CameraFruitActivity : AppCompatActivity() {
 
@@ -50,7 +59,8 @@ class CameraFruitActivity : AppCompatActivity() {
     private var adIsInProgress = false
     private var timer = 0L
 
-
+    private lateinit var dialog : Dialog
+  
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
@@ -66,11 +76,12 @@ class CameraFruitActivity : AppCompatActivity() {
             binding.apply {
                 containerDetail.visibility = View.GONE
                 containerScan.visibility = View.VISIBLE
+                dataFruitContent.visibility = View.GONE
             }
         }
 
+        // Scan a fruit
         binding.btnScan.setOnClickListener {
-
             binding.apply {
                 containerDetail.visibility = View.VISIBLE
                 containerScan.visibility = View.GONE
@@ -94,7 +105,16 @@ class CameraFruitActivity : AppCompatActivity() {
                         interpreter = Interpreter(modelFile)
                         scanFruit()
                     }
+
+            if (this::bitmap.isInitialized){
+                binding.apply {
+                    containerDetail.visibility = View.VISIBLE
+                    containerScan.visibility = View.GONE
                 }
+                scanFruit()
+            } else {
+                Toast.makeText(this, "Please input the image first", Toast.LENGTH_LONG).show()
+            }
         }
 
 
@@ -128,6 +148,20 @@ class CameraFruitActivity : AppCompatActivity() {
     }
 
     private fun scanFruit() {
+
+        // Upload image from gallery
+        binding.btnUpload.setOnClickListener {
+            val intent = Intent(Intent.ACTION_PICK)
+            intent.type = "image/"
+            startActivityForResult(intent, REQUEST_UPLOAD_PICTURE)
+        }
+
+        toolbarSetup()
+        dialog = Dialog(this)
+    }
+
+    private fun scanFruit() {
+        val model = Freshrotten.newInstance(this)
         val input = TensorBuffer.createFixedSize(
             intArrayOf(1, 100, 100, 3),
             DataType.FLOAT32
@@ -136,6 +170,7 @@ class CameraFruitActivity : AppCompatActivity() {
 
         val tensorImage = TensorImage(DataType.FLOAT32)
         tensorImage.load(resizedImage)
+
         val modelOutput = tensorImage.buffer
 
         input.loadBuffer(modelOutput)
@@ -158,6 +193,100 @@ class CameraFruitActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
+        val modelOutput = tensorImage.buffer
+        input.loadBuffer(modelOutput)
+
+        val outputs = model.process(input)
+        val outputFeature0 = outputs.outputFeature0AsTensorBuffer.floatArray
+
+        val data = getTitleFruit(outputFeature0)
+
+        val labels = "freshrotten-labels.txt"
+        val reader = application.assets.open(labels).bufferedReader().use { it.readText() }
+        val list = reader.split("\n")
+
+        binding.txtTitle.text = list[data]
+        getDetailFruit(list[data])
+    }
+
+    private fun getDetailFruit(name: String) {
+        when{
+            name.subSequence(0, 5) == "Fresh" -> {
+                    if (name.subSequence(6, 12) == "Apples"){
+                        val getName = name.subSequence(6,11)
+                        ConfigNetwork.getData().getAll(getName.toString()).enqueue(object : Callback<FruitResponse>{
+                            override fun onResponse(
+                                call: Call<FruitResponse>,
+                                response: Response<FruitResponse>
+                            ) {
+                                binding.dataFruitContent.visibility = View.VISIBLE
+                                val body = response.body()
+                                val nutrition = response.body()?.nutritions
+                                binding.apply {
+                                    dataFruitContent.visibility = View.VISIBLE
+                                    txtGenusFruit.text = body?.genus
+                                    txtFamilyFruit.text = body?.family
+                                    txtOrderFruit.text = body?.order
+                                    txtCarbo.text = nutrition?.carbohydrates.toString()
+                                    txtProtein.text = nutrition?.protein.toString()
+                                    txtFat.text = nutrition?.fat.toString()
+                                    txtCalories.text = nutrition?.calories.toString()
+                                    txtSugar.text = nutrition?.calories.toString()
+                                }
+                            }
+                            override fun onFailure(call: Call<FruitResponse>, t: Throwable) {
+                            }
+                        })
+                    } else {
+                        val getName = name.subSequence(6,12)
+                        ConfigNetwork.getData().getAll(getName.toString()).enqueue(object : Callback<FruitResponse>{
+                            override fun onResponse(
+                                call: Call<FruitResponse>,
+                                response: Response<FruitResponse>
+                            ) {
+                                binding.dataFruitContent.visibility = View.VISIBLE
+                                val body = response.body()
+                                val nutrition = response.body()?.nutritions
+                                binding.apply {
+                                    dataFruitContent.visibility = View.VISIBLE
+                                    txtGenusFruit.text = body?.genus
+                                    txtFamilyFruit.text = body?.family
+                                    txtOrderFruit.text = body?.order
+                                    txtCarbo.text = nutrition?.carbohydrates.toString()
+                                    txtProtein.text = nutrition?.protein.toString()
+                                    txtFat.text = nutrition?.fat.toString()
+                                    txtCalories.text = nutrition?.calories.toString()
+                                    txtSugar.text = nutrition?.calories.toString()
+                                }
+                            }
+                            override fun onFailure(call: Call<FruitResponse>, t: Throwable) {
+                            }
+                        })
+                    }
+                }
+            name.subSequence(0, 6) == "Rotten" -> {
+                binding.apply {
+                    btnScanAgain.visibility = View.GONE
+                    dataFruitContent.visibility = View.GONE
+                    dataRottenCauses.visibility = View.VISIBLE
+                    dialog.setContentView(R.layout.rotten_fruit_dialog)
+                    dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+                    val btnRotten = dialog.findViewById<AppCompatButton>(R.id.btn_see_rotten)
+                    btnRotten.setOnClickListener {
+                        dialog.dismiss()
+                    }
+                }
+                dialog.show()
+            }
+        }
+    }
+
+    private fun toolbarSetup() {
+        setSupportActionBar(binding.tbFruit)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        
         binding.tbFruit.setNavigationOnClickListener {
             finish()
         }
@@ -341,6 +470,17 @@ class CameraFruitActivity : AppCompatActivity() {
         }
     }
 
+        val range = 0..5
+
+        for (i in range) {
+            if (arr[i] > min) {
+                index = i
+                min = arr[i]
+            }
+        }
+        return index
+    }
+    
     companion object {
         private const val TAG = "CameraFruitActivity"
         const val REQUEST_TAKE_PICTURE = 1

@@ -4,13 +4,15 @@ import android.R
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
+import android.os.Build
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
 import com.capstone.fresco.databinding.ActivityCameraPlantBinding
 import com.capstone.fresco.ml.Leaf
@@ -39,6 +41,7 @@ class CameraPlantActivity : AppCompatActivity() {
     private var adIsInProgress = false
     private var timer = 0L
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         super.onCreate(savedInstanceState)
@@ -89,6 +92,15 @@ class CameraPlantActivity : AppCompatActivity() {
 
             model.close()
 
+            if (this::bitmap.isInitialized){
+                binding.apply {
+                    containerDetail.visibility = View.VISIBLE
+                    containerScan.visibility = View.GONE
+                }
+                scanLeaf()
+            } else {
+                Toast.makeText(this, "Please input the image first", Toast.LENGTH_LONG).show()
+            }
         }
 
         // Take picture with camera
@@ -117,6 +129,32 @@ class CameraPlantActivity : AppCompatActivity() {
         toolbarSetup()
     }
 
+    private fun scanLeaf() {
+        val model = Leaf.newInstance(this)
+        val input = TensorBuffer.createFixedSize(
+            intArrayOf(1, 100, 100, 3),
+            DataType.FLOAT32
+        )
+        val resizedImage = resizeImage(bitmap, 100, 100, false)
+
+        val tensorImage = TensorImage(DataType.FLOAT32)
+        tensorImage.load(resizedImage)
+
+        val modelOutput = tensorImage.buffer
+        input.loadBuffer(modelOutput)
+
+        val outputs = model.process(input)
+        val outputFeature0 = outputs.outputFeature0AsTensorBuffer.floatArray
+
+        val data = getTitlePlant(outputFeature0)
+
+        val labels = "leaf-labels.txt"
+        val reader = application.assets.open(labels).bufferedReader().use { it.readText() }
+        val list = reader.split("\n")
+
+        binding.txtTitle.text = list[data]
+    }
+
     private fun toolbarSetup() {
         setSupportActionBar(binding.tbPlant)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -128,11 +166,11 @@ class CameraPlantActivity : AppCompatActivity() {
     }
 
     private fun resizeImage(bitmap: Bitmap, width: Int, height: Int, filter: Boolean): Bitmap? =
-        Bitmap.createScaledBitmap(bitmap, width, height, filter)
+            Bitmap.createScaledBitmap(bitmap, width, height, filter)
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        when {
+        when{
             requestCode == REQUEST_TAKE_PICTURE && resultCode == RESULT_OK -> {
                 bitmap = data?.extras?.get("data") as Bitmap
                 binding.imgCapture.setImageBitmap(bitmap)
@@ -146,12 +184,10 @@ class CameraPlantActivity : AppCompatActivity() {
         }
     }
 
-    private fun getString(arr: FloatArray): Int {
-
+    private fun getTitlePlant(arr: FloatArray): Int {
         var index = 0
         var min = 0.0f
-        val range = 0..50
-
+        val range = 0..99
 
         for (i in range) {
             if (arr[i] > min) {

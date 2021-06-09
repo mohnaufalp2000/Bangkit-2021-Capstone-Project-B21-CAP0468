@@ -6,6 +6,7 @@ class Preferences(val context: Context) {
 
     companion object {
         const val KEY = "key"
+        const val BASE_URL = "https://www.fruityvice.com/"
     }
 
     private var sharedPreferences = context.getSharedPreferences(KEY, 0)

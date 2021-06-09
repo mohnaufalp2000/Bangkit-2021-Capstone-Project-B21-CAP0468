@@ -15,9 +15,6 @@ android {
         mlModelBinding true
     }
 
-    aaptOptions {
-        noCompress "tflite", "lite"
-    }
 
     defaultConfig {
         applicationId "com.capstone.fresco"
@@ -134,11 +131,16 @@ dependencies {
     implementation 'org.tensorflow:tensorflow-lite-metadata:0.1.0'
     implementation 'org.tensorflow:tensorflow-lite:2.4.0'
 
-    // Firebase ML
-    implementation platform('com.google.firebase:firebase-bom:28.0.1')
-    implementation 'com.google.firebase:firebase-ml-modeldownloader-ktx'
+    //Trial
+    implementation 'io.trialy.library:trialy:1.0.9'
+
+    // Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation "com.squareup.okhttp3:logging-interceptor:4.8.0"
 
     //Trial
     implementation 'io.trialy.library:trialy:1.0.9'
 }
+
 

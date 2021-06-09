@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.capstone.fresco.core.util.Preferences
 import com.capstone.fresco.databinding.ActivityOnboardingThreeBinding
 import com.capstone.fresco.ui.auth.AuthActivity
+import maes.tech.intentanim.CustomIntent
 
 class OnboardingThree : AppCompatActivity() {
 
@@ -24,5 +25,10 @@ class OnboardingThree : AppCompatActivity() {
             finishAffinity()
         }
 
+    }
+
+    override fun finish() {
+        super.finish()
+        CustomIntent.customType(this, "right-to-left")
     }
 }
