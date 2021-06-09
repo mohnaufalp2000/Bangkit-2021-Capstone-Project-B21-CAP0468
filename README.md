@@ -56,6 +56,6 @@ ___
 
 1. <a href="https://github.com/mohnaufalp2000" target="_blank">Mohammad Naufal Pratama A2962680</a>
 2. <a href="https://github.com/MAbyanN" target="_blank">Muhammad Abyan Naufal C3122791</a>
-3. <a href="https://github.com/Astudent35" target="_blank">Muhammad Haider Aslam</a>
-4. <a href="https://github.com/paskalhensa" target="_blank">Paskalis Henry Satritama</a>
-5. <a href="https://github.com/dedyramadhan" target="_blank">Dedy Ramadhan</a>
+3. <a href="https://github.com/Astudent35" target="_blank">Muhammad Haider Aslam M0080852</a>
+4. <a href="https://github.com/paskalhensa" target="_blank">Paskalis Henry Satritama M0080847</a>
+5. <a href="https://github.com/dedyramadhan" target="_blank">Dedy Ramadhan A2962675</a>
