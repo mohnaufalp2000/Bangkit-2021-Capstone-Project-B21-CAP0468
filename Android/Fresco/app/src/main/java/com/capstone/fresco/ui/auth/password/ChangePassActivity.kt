@@ -34,12 +34,6 @@ class ChangePassActivity : AppCompatActivity() {
                     SignUpActivity::class.java
                 )
             )
-            startActivity(
-                Intent(
-                    this,
-                    OtpFragment::class.java
-                )
-            )
         }
     }
 

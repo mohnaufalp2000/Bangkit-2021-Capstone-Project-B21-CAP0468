@@ -31,6 +31,7 @@ class SignUpActivity : AppCompatActivity() {
 
         binding.btnSignUp.setOnClickListener {
             checkDataUser()
+            return@setOnClickListener
         }
         binding.txtLogin.setOnClickListener {
             startActivity(
@@ -110,7 +111,7 @@ class SignUpActivity : AppCompatActivity() {
         val getPhoneNumber = binding.edtPhone.text.toString().trim()
 
         auth.createUserWithEmailAndPassword(getEmail, getPassword)
-            .addOnCompleteListener { task -> //Check success status for sign up
+            .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Toast.makeText(
                         this@SignUpActivity,
@@ -146,12 +147,33 @@ class SignUpActivity : AppCompatActivity() {
                         startActivity(it)
                     }
                 } else {
+                    emailAlreadyUse(getEmail)
                     Toast.makeText(
                         this@SignUpActivity,
-                        "Error, Please try again",
+                        "Error can't Sign Up, Please try again",
                         Toast.LENGTH_SHORT
                     ).show()
                     binding.progressBar.visibility = View.GONE
+                }
+            }
+    }
+
+    private fun emailAlreadyUse(getEmail: String) {
+        auth.fetchSignInMethodsForEmail(getEmail)
+            .addOnCompleteListener { task ->
+
+                if (task.isSuccessful) {
+                    Toast.makeText(
+                        this@SignUpActivity,
+                        "Email has been used",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    Toast.makeText(
+                        this@SignUpActivity,
+                        "Email is available",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
     }

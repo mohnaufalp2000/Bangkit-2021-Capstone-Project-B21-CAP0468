@@ -72,7 +72,6 @@ dependencies {
     //Google Ads
     implementation 'com.google.android.gms:play-services-ads:20.1.0'
 
-
     //Junit
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
@@ -140,7 +139,8 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation "com.squareup.okhttp3:logging-interceptor:4.8.0"
 
+    //Trial
+    implementation 'io.trialy.library:trialy:1.0.9'
 }
-
 
 
