@@ -11,7 +11,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 
-class HistoryAdapter(private val historyList : ArrayList<History>) : RecyclerView.Adapter<HistoryAdapter.ViewHolder>() {
+class HistoryAdapter(private val historyList: ArrayList<History>) :
+    RecyclerView.Adapter<HistoryAdapter.ViewHolder>() {
 
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore

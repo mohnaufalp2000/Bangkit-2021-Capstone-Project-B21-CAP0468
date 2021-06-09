@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.capstone.fresco.ui.main
 
 import android.R
@@ -5,7 +7,6 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.provider.MediaStore
@@ -13,6 +14,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.capstone.fresco.databinding.ActivityCameraPlantBinding
 import com.capstone.fresco.ml.Leaf
@@ -40,11 +42,11 @@ class CameraPlantActivity : AppCompatActivity() {
     private var countDownTimer: CountDownTimer? = null
     private var ads: InterstitialAd? = null
     private var adIsLoading: Boolean = false
-    private var ADS_DURATION = 5000L
+    private var adsDuration = 5000L
     private var adIsInProgress = false
     private var timer = 0L
-    private lateinit var auth : FirebaseAuth
-    private lateinit var db : FirebaseFirestore
+    private lateinit var auth: FirebaseAuth
+    private lateinit var db: FirebaseFirestore
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,7 +58,6 @@ class CameraPlantActivity : AppCompatActivity() {
 
         trialy = Trialy(this, MainActivity.TRIALY_APP_KEY)
 
-        // Scan again after scan a plant
         binding.btnScanAgain.setOnClickListener {
             binding.apply {
                 containerDetail.visibility = View.GONE
@@ -64,7 +65,6 @@ class CameraPlantActivity : AppCompatActivity() {
             }
         }
 
-        // Scan a plant
         binding.btnScan.setOnClickListener {
 
             binding.apply {
@@ -75,9 +75,7 @@ class CameraPlantActivity : AppCompatActivity() {
             auth = FirebaseAuth.getInstance()
             db = FirebaseFirestore.getInstance()
 
-            //showAds() //UNCOMMENT THIS IS FOR TEST, DELETE IF SCAN FEATURE IS DONE
-
-            if (this::bitmap.isInitialized){
+            if (this::bitmap.isInitialized) {
                 binding.apply {
                     containerDetail.visibility = View.VISIBLE
                     containerScan.visibility = View.GONE
@@ -88,22 +86,18 @@ class CameraPlantActivity : AppCompatActivity() {
             }
         }
 
-        // Take picture with camera
         binding.btnCapture.setOnClickListener {
             val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             startActivityForResult(intent, CameraFruitActivity.REQUEST_TAKE_PICTURE)
         }
 
-        // Upload image from gallery
         binding.btnUpload.setOnClickListener {
             val intent = Intent(Intent.ACTION_PICK)
             intent.type = "image/"
             startActivityForResult(intent, CameraFruitActivity.REQUEST_UPLOAD_PICTURE)
         }
 
-        ///Check Posisi User
         authListener = FirebaseAuth.AuthStateListener { firebaseAuth ->
-            //Check if user already login / still not logout
             val user = firebaseAuth.currentUser
             if (user != null) {
                 trialy.startTrial(MainActivity.TRIALY_SKU, trialCallback)
@@ -167,11 +161,11 @@ class CameraPlantActivity : AppCompatActivity() {
     }
 
     private fun resizeImage(bitmap: Bitmap, width: Int, height: Int, filter: Boolean): Bitmap? =
-            Bitmap.createScaledBitmap(bitmap, width, height, filter)
+        Bitmap.createScaledBitmap(bitmap, width, height, filter)
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        when{
+        when {
             requestCode == REQUEST_TAKE_PICTURE && resultCode == RESULT_OK -> {
                 bitmap = data?.extras?.get("data") as Bitmap
                 binding.imgCapture.setImageBitmap(bitmap)
@@ -230,7 +224,7 @@ class CameraPlantActivity : AppCompatActivity() {
             adIsLoading = true
             loadAd()
         }
-        resumeAds(ADS_DURATION)
+        resumeAds(adsDuration)
     }
 
     private fun resumeAds(millisec: Long) {

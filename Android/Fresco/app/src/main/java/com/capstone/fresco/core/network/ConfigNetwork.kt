@@ -8,8 +8,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 class ConfigNetwork {
-    companion object{
-        private fun provideOkhttpClient() : OkHttpClient {
+    companion object {
+        private fun provideOkhttpClient(): OkHttpClient {
             return OkHttpClient.Builder()
                 .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                 .connectTimeout(120, TimeUnit.SECONDS)
@@ -17,7 +17,7 @@ class ConfigNetwork {
                 .build()
         }
 
-        fun getData() : ApiFruitService {
+        fun getData(): ApiFruitService {
             val retrofit = Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())

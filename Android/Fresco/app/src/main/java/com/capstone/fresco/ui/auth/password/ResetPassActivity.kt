@@ -27,7 +27,6 @@ class ResetPassActivity : AppCompatActivity() {
     private fun onResetPass() {
         val getEmail = binding.edtEmail.text.toString().trim()
 
-        //Check is empty email or password
         if (getEmail.isEmpty()) {
             binding.apply {
                 edtEmail.error = "Email can't be empty"
@@ -35,7 +34,6 @@ class ResetPassActivity : AppCompatActivity() {
             }
         }
 
-        //Check email is valid
         if (!Patterns.EMAIL_ADDRESS.matcher(getEmail).matches()) {
             binding.apply {
                 edtEmail.error = "Email not valid"
