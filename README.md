@@ -50,6 +50,10 @@ For fresh or rotten fruits model we used the dataset from kaggle (https://www.ka
   
 For leaf classification model we used the dataset from UCI (https://archive.ics.uci.edu/ml/datasets/leaf), this dataset contains a total of 100 classes of various leaf images, which each class has 16 images, so the dataset has 1600 total images. With that said we created a CNNs model using tensorflow and keras library. The model contains three layers of convolutional and max pooling layers and after the 3 layers we applied a flattening layer followed by a dropout layer, after that we applied a dense layer followed by an output layer. We compiled the model using the “adam” optimizer and used “categorical_crossentropy” since the model was classifying 100 classes and trained it with 50 epochs. In this model, we applied a few forms of data augmentation techniques in the training set, we applied pixel scaling, horizontal flips, zooming in on images and shear ranging. In the end, the model has achieved quite high accuracy both on the training and validation set (acc: 0.9054, val_acc: 0.8333) . We can say there is a little bit of overfitting going on but since the data is limited there isn't much which can be done. We believe the model could still improve with the help of a broader dataset, further data augmentation techniques and or applying transfer learning techniques for much better results. 
   
+### Mentor
+___
+
+‍Javentira Lienata
 
 ### Author
 ___
