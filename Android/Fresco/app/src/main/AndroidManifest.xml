@@ -19,9 +19,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Fresco">
-
+        <activity android:name=".ui.HistoryActivity"></activity>
         <activity android:name=".ui.ProfileActivity" />
-
         <activity android:name=".ui.auth.password.ResetPassActivity" />
         <!--
             Adding this meta data is required as of Google Mobile Ads SDK version 17.0.0 as explained in
@@ -38,9 +37,8 @@
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-7074988547859559~4566243771" />
 
-        <activity android:name=".ui.main.CameraFruitActivity"/>
+        <activity android:name=".ui.main.CameraFruitActivity" />
         <activity android:name=".ui.main.CameraPlantActivity" />
-
         <activity android:name=".ui.auth.password.ChangePassActivity" />
         <activity android:name=".ui.auth.signup.SignUpActivity" />
         <activity android:name=".ui.auth.login.LoginActivity" />

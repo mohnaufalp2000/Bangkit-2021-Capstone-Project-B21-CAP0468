@@ -21,12 +21,15 @@ import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import io.trialy.library.Constants
 import io.trialy.library.Trialy
 import io.trialy.library.TrialyCallback
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.support.image.TensorImage
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
+import java.text.SimpleDateFormat
+import java.util.*
 
 class CameraPlantActivity : AppCompatActivity() {
 
@@ -40,6 +43,8 @@ class CameraPlantActivity : AppCompatActivity() {
     private var ADS_DURATION = 5000L
     private var adIsInProgress = false
     private var timer = 0L
+    private lateinit var auth : FirebaseAuth
+    private lateinit var db : FirebaseFirestore
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,30 +72,10 @@ class CameraPlantActivity : AppCompatActivity() {
                 containerScan.visibility = View.GONE
             }
 
+            auth = FirebaseAuth.getInstance()
+            db = FirebaseFirestore.getInstance()
+
             //showAds() //UNCOMMENT THIS IS FOR TEST, DELETE IF SCAN FEATURE IS DONE
-
-            val labels = "leaf-labels.txt"
-            val input = application.assets.open(labels).bufferedReader().use { it.readText() }
-            val list = input.split("\n")
-
-            // From model
-            val model = Leaf.newInstance(this)
-
-            val inputFeature0 =
-                TensorBuffer.createFixedSize(intArrayOf(1, 100, 100, 3), DataType.FLOAT32)
-            val resizedImage = resizeImage(bitmap, 200, 200, true)
-
-            val image = TensorImage.fromBitmap(resizedImage)
-            inputFeature0.loadBuffer(image.buffer)
-
-            val outputs = model.process(inputFeature0)
-            val outputFeature0 = outputs.outputFeature0AsTensorBuffer
-
-            val data = getString(outputFeature0.floatArray)
-
-            binding.txtTitle.text = list[data]
-
-            model.close()
 
             if (this::bitmap.isInitialized){
                 binding.apply {
@@ -153,6 +138,22 @@ class CameraPlantActivity : AppCompatActivity() {
         val list = reader.split("\n")
 
         binding.txtTitle.text = list[data]
+
+        val dateFormat = SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.getDefault())
+        val date = Date()
+
+        saveToHistory(list[data], dateFormat.format(date))
+    }
+
+    private fun saveToHistory(name: String, format: String) {
+        val history: MutableMap<String, Any> = HashMap()
+
+        history["name"] = name
+        history["uid"] = auth.currentUser?.uid.toString()
+        history["time"] = format
+
+        db.collection("scanhistory")
+            .add(history)
     }
 
     private fun toolbarSetup() {

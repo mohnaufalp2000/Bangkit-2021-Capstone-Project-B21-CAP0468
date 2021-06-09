@@ -82,5 +82,6 @@
     <string name="_2_cause_respiratory_problems">2. Cause respiratory problems</string>
     <string name="_3_can_cause_nausea">3. Can cause nausea</string>
     <string name="_4_increase_the_risk_of_cancer">4. Increase the risk of cancer</string>
+    <string name="history">History</string>
 
 </resources>

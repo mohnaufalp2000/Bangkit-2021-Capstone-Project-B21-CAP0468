@@ -7,6 +7,11 @@
         android:id="@+id/action_profile"
         android:icon="@drawable/ic_baseline_person_24"
         android:title="@string/profile"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_history"
+        android:icon="@drawable/ic_baseline_history_24"
+        android:title="@string/history"
+        app:showAsAction="ifRoom"/>
 
 </menu>
